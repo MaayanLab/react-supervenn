@@ -1,5 +1,19 @@
 import React from 'react'
-import classes from './ReactSupervenn.module.css'
+import style from './ReactSupervenn.module.css'
+
+function classes(...C) {
+  if (C.length === 1 && typeof C[0] === 'object') {
+    const _C = []
+    for (const c in C[0]) {
+      if (C[0][c]) {
+        _C.push(c)
+      }
+    }
+    return _C.join(' ')
+  } else {
+    return C.join(' ')
+  }
+}
 
 function sum(L) {
   let s = 0
@@ -13,35 +27,45 @@ export default function ReactSupervenn({ sets, set_annotations, composition_arra
   const col_width = 18
   const row_height = 18
   const ycounts = chunks.map((_, col) => sum(composition_array.map(rows => rows[col])))
+  const [selection, setSelection] = React.useState({})
   return (
     <div
-      className={`${classes.layout} ${classes.expand}`}
+      className={`${style.layout} ${style.expand}`}
     >
-      <div className={classes.data}>
-        <div className={classes.col}>
+      <div className={style.data}>
+        <div className={style.col}>
           {composition_array.map((cells, row) => (
-            <div key={row} className={classes.row}>
+            <div key={row} className={classes(style.row)}>
               {cells.map((cell, col) => {
                 if (cell === 1) {
                   return (
                     <div
                       key={col}
+                      className={classes({
+                        [style.cell]: true,
+                        [style.selected]: selection[`${row}.*`] || selection[`*.${col}`] || selection[`${row}.${col}`],
+                      })}
+                      onClick={_ => setSelection(
+                        selection => ({
+                          ...selection,
+                          [`${row}.${col}`]: !selection[`${row}.${col}`],
+                        })
+                      )}
                       style={{
                         width: chunks[col].length * col_width,
                         height: row_height,
                         backgroundColor: 'green',
-                        border: '1px solid white',
                       }}>&nbsp;</div>
                   )
                 } else {
                   return (
                     <div
                       key={col}
+                      className={style.cell}
                       style={{
                         width: chunks[col].length * col_width,
                         height: row_height,
                         backgroundColor: 'lightgrey',
-                        border: '1px solid white',
                       }}>&nbsp;</div>
                   )
                 }
@@ -50,20 +74,20 @@ export default function ReactSupervenn({ sets, set_annotations, composition_arra
           ))}
         </div>
       </div>
-      <div className={classes.ylabel}>
+      <div className={style.ylabel}>
         <div style={{ position: 'relative', width: '100%', height: '100%' }}>
           <div style={{
             transform: 'rotate(-90deg) translateX(-75%)'
           }}>SETS</div>
         </div>
       </div>
-      <div className={classes.xlabel}>
-        <div className={classes['text-center']}>
+      <div className={style.xlabel}>
+        <div className={style['text-center']}>
           ITEMS
         </div>
       </div>
-      <div className={classes.yticks}>
-        <div className={classes.col}>
+      <div className={style.yticks}>
+        <div className={style.col}>
           {sets.map((_, row) => (
             <div
               key={row}
@@ -77,12 +101,12 @@ export default function ReactSupervenn({ sets, set_annotations, composition_arra
           ))}
         </div>
       </div>
-      <div className={classes.xticks}>
-        <div className={classes.row}>
+      <div className={style.xticks}>
+        <div className={style.row}>
           {chunks.map((chunk, col) => (
             <div
               key={col}
-              className={classes['text-center']}
+              className={style['text-center']}
               style={{
                 width: chunks[col].length * col_width,
                 height: row_height,
@@ -94,33 +118,45 @@ export default function ReactSupervenn({ sets, set_annotations, composition_arra
           ))}
         </div>
       </div>
-      <div className={classes.ycount}>
-        <div className={classes.row}>
+      <div className={style.ycount}>
+        <div className={style.row}>
           {chunks.map((chunk, col) => (
-            <div key={col} className={classes.row} style={{
-              width: chunks[col].length * col_width,
-              height: ycounts[col] * row_height,
-              border: '1px solid white',
-              backgroundColor: 'grey',
-              alignSelf: 'end',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}><span>{ycounts[col]}</span></div>
+            <div key={col} className={style.cell}
+              onClick={_ => setSelection(
+                selection => ({
+                  ...selection,
+                  [`*.${col}`]: !selection[`*.${col}`],
+                })
+              )}
+              style={{
+                display: 'flex',
+                width: chunks[col].length * col_width,
+                height: ycounts[col] * row_height,
+                backgroundColor: 'grey',
+                alignSelf: 'end',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}><span>{ycounts[col]}</span></div>
           ))}
         </div>
       </div>
-      <div className={classes.xcount}>
-        <div className={classes.col}>
+      <div className={style.xcount}>
+        <div className={style.col}>
           {sets.map((_, row) => (
             <div
               key={row}
-              className={classes['text-center']}
+              className={classes(style.cell, style['text-center'])}
               title={JSON.stringify(sets[row])}
+              onClick={_ => setSelection(
+                selection => ({
+                  ...selection,
+                  [`${row}.*`]: !selection[`${row}.*`],
+                })
+              )}
               style={{
                 width: sets[row].length * col_width,
                 height: row_height,
                 backgroundColor: 'grey',
-                border: '1px solid white',
               }}
             >{sets[row].length}</div>
           ))}

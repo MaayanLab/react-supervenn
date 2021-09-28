@@ -51,3 +51,12 @@
 .xlabel {
   grid-area: xlabel;
 }
+
+.cell {
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.cell.selected {
+  border: 1px solid black;
+}

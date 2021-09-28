@@ -1,0 +1,53 @@
+.row {
+  display: flex;
+  flex-direction: row;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+}
+.d-inline {
+  display: inline-block;
+  position: relative;
+}
+.text-center {
+  text-align: center;
+}
+
+
+.expand {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+.layout {
+  display: grid;
+  grid:
+      ".           .           ycount      .          " min-content
+      "ylabel      yticks      data        xcount     " min-content
+      ".           .           xticks      .          " min-content
+      ".           .           xlabel      .          " min-content
+    /  min-content min-content min-content min-content
+  ;
+}
+
+.ycount {
+  grid-area: ycount;
+}
+.xcount {
+  grid-area: xcount;
+}
+.data {
+  grid-area: data;
+}
+.ylabel {
+  grid-area: ylabel;
+}
+.yticks {
+  grid-area: yticks;
+}
+.xticks {
+  grid-area: xticks;
+}
+.xlabel {
+  grid-area: xlabel;
+}

@@ -60,3 +60,11 @@
 .cell.selected {
   border: 1px solid black;
 }
+
+.clickable {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.clickable:active {
+  color: darkred;
+}

@@ -28,6 +28,16 @@ export default function ReactSupervenn({ sets, set_annotations, composition_arra
   const row_height = 18
   const ycounts = chunks.map((_, col) => sum(composition_array.map(rows => rows[col])))
   const [selection, setSelection] = React.useState({})
+  const selectedSets = {}
+  const selectedItems = {}
+  for (const k in selection) {
+    if (!selection[k]) continue
+    const [row, col] = k.split('.')
+    selectedSets[set_annotations[row]] = true
+    for (const item of chunks[col]) {
+      selectedItems[item] = true
+    }
+  }
   return (
     <div
       className={`${style.layout} ${style.expand}`}
@@ -43,7 +53,7 @@ export default function ReactSupervenn({ sets, set_annotations, composition_arra
                       key={col}
                       className={classes({
                         [style.cell]: true,
-                        [style.selected]: selection[`${row}.*`] || selection[`*.${col}`] || selection[`${row}.${col}`],
+                        [style.selected]: selection[`${row}.${col}`],
                       })}
                       onClick={_ => setSelection(
                         selection => ({
@@ -77,13 +87,24 @@ export default function ReactSupervenn({ sets, set_annotations, composition_arra
       <div className={style.ylabel}>
         <div style={{ position: 'relative', width: '100%', height: '100%' }}>
           <div style={{
-            transform: 'rotate(-90deg) translateX(-75%)'
-          }}>SETS</div>
+            transform: 'rotate(-90deg) translateX(-25%)',
+            whiteSpace: 'nowrap',
+            textAlign: 'center',
+          }}>SETS (<span
+            className={style.clickable}
+            onClick={_ =>
+              navigator.clipboard.writeText(Object.keys(selectedSets).join('\n'))
+            }>{Object.keys(selectedSets).length} sets</span>)
+          </div>
         </div>
       </div>
       <div className={style.xlabel}>
         <div className={style['text-center']}>
-          ITEMS
+          ITEMS (<span 
+            className={style.clickable}
+            onClick={_ =>
+              navigator.clipboard.writeText(Object.keys(selectedItems).join('\n'))
+            }>{Object.keys(selectedItems).length} items</span>)
         </div>
       </div>
       <div className={style.yticks}>
@@ -123,10 +144,15 @@ export default function ReactSupervenn({ sets, set_annotations, composition_arra
           {chunks.map((chunk, col) => (
             <div key={col} className={style.cell}
               onClick={_ => setSelection(
-                selection => ({
-                  ...selection,
-                  [`*.${col}`]: !selection[`*.${col}`],
-                })
+                selection => {
+                  const _selection = {...selection}
+                  for (const row in composition_array) {
+                    if (composition_array[row][col]) {
+                      _selection[`${row}.${col}`] = !_selection[`${row}.${col}`]
+                    }
+                  }
+                  return _selection
+                }
               )}
               style={{
                 display: 'flex',
@@ -148,10 +174,15 @@ export default function ReactSupervenn({ sets, set_annotations, composition_arra
               className={classes(style.cell, style['text-center'])}
               title={JSON.stringify(sets[row])}
               onClick={_ => setSelection(
-                selection => ({
-                  ...selection,
-                  [`${row}.*`]: !selection[`${row}.*`],
-                })
+                selection => {
+                  const _selection = {...selection}
+                  for (const col in Object.keys(chunks)) {
+                    if (composition_array[row][col]) {
+                      _selection[`${row}.${col}`] = !_selection[`${row}.${col}`]
+                    }
+                  }
+                  return _selection
+                }
               )}
               style={{
                 width: sets[row].length * col_width,

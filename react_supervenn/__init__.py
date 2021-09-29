@@ -2,12 +2,12 @@
 replaces matplotlib with an interactive react component.
 '''
 
-from IPython.display import display, HTML, Javascript
 import uuid
 import json
 from pathlib import Path
 from textwrap import dedent
 
+from IPython.display import display, HTML, Javascript
 from supervenn._algorithms import (
   get_chunks_and_composition_array,
   get_permutations,

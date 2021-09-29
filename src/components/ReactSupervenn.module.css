@@ -23,6 +23,10 @@
   overflow: hidden;
   display: flex;
   flex-direction: row;
+  background-color: #eee;
+}
+.data > div.alternate {
+  background-color: #ddd;
 }
 .cell {
   border: 1px solid white;
@@ -79,6 +83,7 @@
   flex-direction: row;
 }
 .xticks > div {
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,7 +92,17 @@
 .xticks > div > span {
   user-select: none;
 }
-
+.xticks > div.rotated {
+  position: relative;
+}
+.xticks > div.rotated > span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+  white-space: nowrap;
+  user-select: none;
+}
 
 .ycount {
   grid-area: ycount;
@@ -98,13 +113,19 @@
 .ycount > div {
   cursor: pointer;
   border: 1px solid white;
-  background-color: #aaa;
+  background-color: #eee;
   display: flex;
-  align-self: end;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: flex-end;
+}
+.ycount > div > div {
+  display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #aaa;
 }
-.ycount > div > span {
+.ycount > div > div > span {
   user-select: none;
 }
 
@@ -118,12 +139,21 @@
   cursor: pointer;
   border: 1px solid white;
   flex: 1 0 auto;
-  background-color: #aaa;
+  display: flex;
+  flex-direction: column;
+}
+.xcount > div.alternate {
+  background-color: #ddd;
+}
+.xcount > div > div {
+  flex: 1 0 auto;
   display: flex;
   align-items: center;
   justify-items: flex-end;
+  align-items: center;
+  background-color: #aaa;
 }
-.ycount > div > span {
+.xcount > div > div > span {
   user-select: none;
 }
 

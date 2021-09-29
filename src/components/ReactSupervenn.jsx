@@ -24,6 +24,10 @@ export default function ReactSupervenn({
   col_widths,
   n_items,
   ycounts,
+  rotate_col_annotations,
+  color_by,
+  color_cycle,
+  alternating_background,
 }) {
   const W = (w) => `${100 * w}%`
   const H = (h) => `${100 * h}%`
@@ -44,7 +48,10 @@ export default function ReactSupervenn({
     >
       <div className={style.data}>
         {composition_array.map((cells, row) => (
-          <div key={row}>
+          <div
+            key={row}
+            className={classes({ [style.alternate]: alternating_background && row % 2 == 0 })}
+          >
             {cells.map((cell, col) => {
               if (cell === 1) {
                 return (
@@ -64,7 +71,7 @@ export default function ReactSupervenn({
                     }}
                     style={{
                       width: W(col_widths[col] / n_items),
-                      backgroundColor: 'green',
+                      backgroundColor: color_by === 'column' ? color_cycle[col % color_cycle.length] : color_cycle[row % color_cycle.length],
                       userSelect: 'none',
                     }}>&nbsp;</div>
                 )
@@ -75,7 +82,6 @@ export default function ReactSupervenn({
                     className={style.cell}
                     style={{
                       width: W(col_widths[col] / n_items),
-                      backgroundColor: 'lightgrey',
                       userSelect: 'none',
                     }}>&nbsp;</div>
                 )
@@ -111,6 +117,7 @@ export default function ReactSupervenn({
         {chunks.map((chunk, col) => (
           <div
             key={col}
+            className={classes({ [style.rotated]: rotate_col_annotations })}
             style={{
               width: W(col_widths[col] / n_items),
             }}
@@ -127,6 +134,9 @@ export default function ReactSupervenn({
         {chunks.map((chunk, col) => (
           <div
             key={col}
+            style={{
+              width: W(col_widths[col] / n_items),
+            }}
             onClick={_ => {
               setSelection(
                 selection => {
@@ -140,22 +150,25 @@ export default function ReactSupervenn({
                 }
               )
             }}
-            style={{
-              width: W(col_widths[col] / n_items),
-              height: H(ycounts[col] / sets.length),
-            }}>
-              <span>
-                {chunks[col].length >= effective_min_width_for_annotation ?
-                  ycounts[col]
-                  : null}
-              </span>
+          >
+            <div
+              style={{
+                height: H(ycounts[col] / sets.length),
+              }}>
+                <span>
+                  {chunks[col].length >= effective_min_width_for_annotation ?
+                    ycounts[col]
+                    : null}
+                </span>
             </div>
+          </div>
         ))}
       </div>
       <div className={style.xcount}>
         {sets.map((_, row) => (
           <div
             key={row}
+            className={classes({ [style.alternate]: alternating_background && row % 2 == 0 })}
             title={JSON.stringify(sets[row])}
             onClick={_ => {
               setSelection(
@@ -170,10 +183,13 @@ export default function ReactSupervenn({
                 }
               )
             }}
-            style={{
-              width: W(sets[row].length / n_items),
-            }}
-          ><span>{sets[row].length}</span></div>
+          >
+            <div
+              style={{
+                width: W(sets[row].length / n_items),
+              }}
+            ><span>{sets[row].length}</span></div>
+          </div>
         ))}
       </div>
     </div>

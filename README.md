@@ -11,7 +11,7 @@ This uses the output of supervenn's algorithms.
 pip install --user --upgrade 'git+https://github.com/maayanlab/react-supervenn'
 ```
 #### Usage
-See [demo.ipynb](./demo.ipynb) for more info.
+See [demo.ipynb](https://nbviewer.jupyter.org/github/MaayanLab/react-supervenn/blob/main/demo.ipynb) for more info.
 
 ### Javascript
 ```

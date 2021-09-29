@@ -244,7 +244,7 @@ def supervenn(sets, set_annotations=None, side_plots=True,
               reverse_chunks_order=True, reverse_sets_order=True,
               max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS, noise_prob=DEFAULT_NOISE_PROB,
               side_plot_width=1, min_width_for_annotation=1, widths_minmax_ratio=None, side_plot_color='gray',
-              dpi=None, ax=None, **kw):
+              **kw):
     """
     Plot a diagram visualizing relationship of multiple sets.
     :param sets: list of sets
@@ -292,8 +292,6 @@ def supervenn(sets, set_annotations=None, side_plots=True,
         and method `get_chunk(set_indices)`. See docstring to returned object.
     """
 
-    axes = {}
-
     if set_annotations is None:
         set_annotations = ['Set_{}'.format(i) for i in range(len(sets))]
 
@@ -327,44 +325,14 @@ def supervenn(sets, set_annotations=None, side_plots=True,
     else:
         col_widths = chunk_sizes
         effective_min_width_for_annotation = min_width_for_annotation
-
-    axes['main'] = plot_binary_array(
-      arr=composition_array,
-      row_annotations=set_annotations,
-      col_annotations=chunk_sizes,
-      col_widths=col_widths,
-      row_heights=[1] * len(sets),
-      min_width_for_annotation=effective_min_width_for_annotation,
-      **kw
-    )
-
-    axes['xlim'] = axes['main']['xlim']
-    axes['ylim'] = axes['main']['ylim']
-    fontsize = kw.get('fontsize', DEFAULT_FONTSIZE)
-    axes['xlabel'] = dict(text='ITEMS', fontsize=fontsize)
-    axes['ylabel'] = dict(text='SETS', fontsize=fontsize)
-
-    # Side plots
-
-    if side_plots:
-        axes['top_side_plot'] = side_plot(
-          composition_array.sum(0), col_widths, 'h',
-          min_width_for_annotation=effective_min_width_for_annotation,
-          rotate_annotations=kw.get('rotate_col_annotations', False), color=side_plot_color, fontsize=fontsize
-        )
-        axes['top_side_plot']['xlim'] = axes['xlim']
-
-    if side_plots:
-        axes['right_side_plot'] = side_plot(
-          [len(sets[i]) for i in permutations_['sets_ordering']], [1] * len(sets), 'v', color=side_plot_color,
-          fontsize=fontsize
-        )
-        axes['right_side_plot']['ylim'] = axes['ylim']
-
+    #
     return dict(
-      axes=axes,
-      chunks={
-        ' & '.join(map(str,sorted(K))): sorted(S)
-        for K, S in break_into_chunks(sets).items()
-      },
+        sets=[list(s) for s in sets],
+        set_annotations=set_annotations,
+        chunks=[list(s) for s in chunks],
+        composition_array=composition_array.tolist(),
+        effective_min_width_for_annotation=effective_min_width_for_annotation,
+        col_widths=col_widths,
+        n_items=sum(len(s) for s in chunks),
+        ycounts=composition_array.sum(axis=0).tolist(),
     )

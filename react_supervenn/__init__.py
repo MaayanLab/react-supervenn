@@ -2,6 +2,12 @@
 replaces matplotlib with an interactive react component.
 '''
 
+from IPython.display import display, HTML, Javascript
+import uuid
+import json
+from pathlib import Path
+from textwrap import dedent
+
 from supervenn._algorithms import (
   get_chunks_and_composition_array,
   get_permutations,
@@ -135,3 +141,73 @@ def supervenn(sets, set_annotations=None,
         color_cycle=color_cycle,
         alternating_background=alternating_background,
     )
+
+def react_supervenn_js():
+    return open(Path(__file__).parent/'react_supervenn.js', 'r').read()
+
+def define_react_supervenn(include_require=False, require_cdn=False):
+    if include_require:
+        if require_cdn is True:
+            require_cdn = 'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js'
+        elif require_cdn is False:
+            require_cdn = '/static/components/requirejs/require.js'
+        display(HTML(f'<script src={repr(require_cdn)}></script>'))
+    display(Javascript(react_supervenn_js()))
+
+_defined = False
+
+def ReactSupervenn(sets, set_annotations=None,
+              chunks_ordering='minimize gaps', sets_ordering=None,
+              reverse_chunks_order=True, reverse_sets_order=True,
+              max_bruteforce_size=DEFAULT_MAX_BRUTEFORCE_SIZE, seeds=DEFAULT_SEEDS,
+              noise_prob=DEFAULT_NOISE_PROB, min_width_for_annotation=1,
+              widths_minmax_ratio=None, rotate_col_annotations=False,
+              color_by='row', color_cycle=DEFAULT_COLOR_CYCLE, alternating_background=True,
+              id=None, include_require=False, force_define=False, require_cdn=False,
+              width='100%', height='500px', **kwargs):
+    global _defined
+    if force_define or not _defined:
+        define_react_supervenn(include_require=include_require, require_cdn=require_cdn)
+        _defined = True
+    if id is None:
+        id = str(uuid.uuid4())
+    props = supervenn(sets,
+        set_annotations=set_annotations,
+        chunks_ordering=chunks_ordering,
+        sets_ordering=sets_ordering,
+        reverse_chunks_order=reverse_chunks_order,
+        reverse_sets_order=reverse_sets_order,
+        max_bruteforce_size=max_bruteforce_size,
+        seeds=seeds,
+        noise_prob=noise_prob,
+        min_width_for_annotation=min_width_for_annotation,
+        widths_minmax_ratio=widths_minmax_ratio,
+        rotate_col_annotations=rotate_col_annotations,
+        color_by=color_by,
+        color_cycle=color_cycle,
+        alternating_background=alternating_background,
+    )
+    props.update(width=width, height=height)
+    return HTML(dedent(f'''
+        <div id="{id}"></div>
+        <script>
+            require(['react_supervenn'], function (react_supervenn) {{
+                try {{
+                    var self = document.getElementById('{id}')
+                    while (self.children.length > 0) self.children[0].remove()
+                    react_supervenn.ReactSupervenn(
+                        self,
+                        {json.dumps(props)}
+                    )
+                }} catch (e) {{
+                    console.error(e)
+                    var self = document.getElementById('{id}')
+                    self.innerHTML = '<b style="color:red">' + e + '</b>'
+                }}
+            }}, function (e) {{
+                console.error(e)
+                var self = document.getElementById('{id}')
+                self.innerHTML = '<b style="color:red">' + e + '</b>'
+            }})
+        </script>
+        '''))

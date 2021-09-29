@@ -1,41 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Suspense from './components/Suspense'
+import { useAsyncResource } from 'use-async-resource'
 
 const ReactSupervenn = React.lazy(() => import('./components/ReactSupervenn'))
 
+function Component({ getDemo }) {
+  const demo = getDemo()
+  return (
+    <div style={{ display: 'flex', flex: '1 1 auto', overflow: 'hidden' }}>
+      <ReactSupervenn {...demo} />
+    </div>
+  )
+}
 function App() {
+  const [getDemo] = useAsyncResource(() => import('./demo.json').then(mod => ({ ...mod.default })), []);
   return (
     <Suspense>
-      <div style={{ display: 'flex', flex: '1 1 auto', overflow: 'hidden' }}>
-      <ReactSupervenn
-        sets={[
-          ['1','2','3','4'],
-          ['3','4','5'],
-          ['1','6','3','4'],
-          ['1'],
-        ]}
-        set_annotations={[
-          'A',
-          'B',
-          'C',
-          'D',
-        ]}
-        composition_array={[
-          [0, 0, 1, 1, 1],
-          [0, 1, 1, 0, 0],
-          [1, 0, 1, 1, 0],
-          [0, 0, 0, 1, 0]
-        ]}
-        chunks={[
-          ['6'],
-          ['5'],
-          ['3','4'],
-          ['1'],
-          ['2'],
-        ]}
-      />
-      </div>
+      <Component getDemo={getDemo} />
     </Suspense>
   )
 }

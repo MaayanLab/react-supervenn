@@ -1,64 +1,130 @@
-.row {
-  display: flex;
-  flex-direction: row;
-}
-.col {
-  display: flex;
-  flex-direction: column;
-}
-.d-inline {
-  display: inline-block;
-  position: relative;
-}
-.text-center {
-  text-align: center;
-}
-
-
-.expand {
+.layout {
   flex: 1 1 auto;
   overflow: hidden;
-}
-.layout {
   display: grid;
   grid:
-      ".           .           ycount      .          " min-content
-      "ylabel      yticks      data        xcount     " min-content
+      ".           .           ycount      .          " 1fr
+      "ylabel      yticks      data        xcount     " 2fr
       ".           .           xticks      .          " min-content
       ".           .           xlabel      .          " min-content
-    /  min-content min-content min-content min-content
+    /  min-content min-content 2fr        1fr
   ;
 }
 
-.ycount {
-  grid-area: ycount;
-}
-.xcount {
-  grid-area: xcount;
-}
 .data {
   grid-area: data;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-items: stretch;
 }
-.ylabel {
-  grid-area: ylabel;
+.data > div {
+  flex: 1 1 auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
 }
-.yticks {
-  grid-area: yticks;
-}
-.xticks {
-  grid-area: xticks;
-}
-.xlabel {
-  grid-area: xlabel;
-}
-
 .cell {
   border: 1px solid white;
   cursor: pointer;
 }
-
 .cell.selected {
   border: 1px solid black;
+}
+
+.ylabel {
+  grid-area: ylabel;
+  position: relative;
+  width: 50px;
+}
+.ylabel > div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.xlabel {
+  grid-area: xlabel;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.yticks {
+  grid-area: yticks;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.yticks > div {
+  flex: 1 1 auto;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-items: flex-end;
+  border: 1px solid white;
+}
+.yticks > div > span {
+  user-select: none;
+}
+
+.xticks {
+  grid-area: xticks;
+  display: flex;
+  flex-direction: row;
+}
+.xticks > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid white;
+}
+.xticks > div > span {
+  user-select: none;
+}
+
+
+.ycount {
+  grid-area: ycount;
+  display: flex;
+  flex-direction: row;
+  background-color: #eee;
+}
+.ycount > div {
+  cursor: pointer;
+  border: 1px solid white;
+  background-color: #aaa;
+  display: flex;
+  align-self: end;
+  align-items: center;
+  justify-content: center;
+}
+.ycount > div > span {
+  user-select: none;
+}
+
+.xcount {
+  grid-area: xcount;
+  display: flex;
+  flex-direction: column;
+  background-color: #eee;
+}
+.xcount > div {
+  cursor: pointer;
+  border: 1px solid white;
+  flex: 1 0 auto;
+  background-color: #aaa;
+  display: flex;
+  align-items: center;
+  justify-items: flex-end;
+}
+.ycount > div > span {
+  user-select: none;
 }
 
 .clickable {

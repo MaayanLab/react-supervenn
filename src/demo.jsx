@@ -7,7 +7,7 @@ const ReactSupervenn = React.lazy(() => import('./components/ReactSupervenn'))
 function App() {
   return (
     <Suspense>
-      <div style={{ width: 500, height: 400 }}>
+      <div style={{ display: 'flex', flex: '1 1 auto', overflow: 'hidden' }}>
       <ReactSupervenn
         sets={[
           ['1','2','3','4'],

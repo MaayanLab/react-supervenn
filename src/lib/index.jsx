@@ -1,5 +1,4 @@
 import React from 'react'
-import style from './ReactSupervenn.module.css'
 
 function classes(...C) {
   if (C.length === 1 && typeof C[0] === 'object') {
@@ -16,6 +15,7 @@ function classes(...C) {
 }
 
 export default function ReactSupervenn({
+  style,
   sets,
   set_annotations,
   chunks,

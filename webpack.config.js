@@ -10,6 +10,7 @@ module.exports = function (_env, argv) {
       library: 'react_supervenn',
       libraryTarget: 'umd',
       umdNamedDefine: true,
+      globalObject: 'this',
     },
     module: {
       rules: [
@@ -20,20 +21,6 @@ module.exports = function (_env, argv) {
             loader: 'babel-loader',
             options: {
               envName: 'production',
-              presets: [
-                [
-                  '@babel/preset-env',
-                  {
-                    modules: false
-                  }
-                ],
-                '@babel/preset-react'
-              ],
-              plugins: [
-                '@babel/plugin-transform-runtime',
-                'dynamic-import-webpack',
-                'remove-webpack'
-              ],
             }
           }
         },

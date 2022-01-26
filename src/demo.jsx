@@ -3,13 +3,14 @@ import ReactDOM from 'react-dom'
 import Suspense from './components/Suspense'
 import { useAsyncResource } from 'use-async-resource'
 
-const ReactSupervenn = React.lazy(() => import('./components/ReactSupervenn'))
+import ReactSupervennStyle from './lib/index.module.css'
+const ReactSupervenn = React.lazy(() => import('./lib'))
 
 function Component({ getDemo }) {
   const demo = getDemo()
   return (
     <div style={{ display: 'flex', flex: '1 1 auto', overflow: 'hidden' }}>
-      <ReactSupervenn {...demo} />
+      <ReactSupervenn style={ReactSupervennStyle} {...demo} />
     </div>
   )
 }

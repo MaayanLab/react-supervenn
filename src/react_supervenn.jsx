@@ -2,7 +2,8 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 import Suspense from './components/Suspense'
 
-const ReactSupervennComponent = React.lazy(() => import('./components/ReactSupervenn'))
+import ReactSupervennStyle from './lib/index.module.css'
+const ReactSupervennComponent = React.lazy(() => import('./lib'))
 
 export function ReactSupervenn(container, { width, height, ...props }) {
   if (width === undefined) width = '100%'
@@ -16,7 +17,7 @@ export function ReactSupervenn(container, { width, height, ...props }) {
         position: 'relative',
         overflow: 'hidden',
       }}>
-        <ReactSupervennComponent {...props} />
+        <ReactSupervennComponent style={ReactSupervennStyle} {...props} />
       </div>
     </Suspense>,
     container

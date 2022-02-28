@@ -15,7 +15,7 @@ function Component({ getDemo }) {
   )
 }
 function App() {
-  const [getDemo] = useAsyncResource(() => import('./demo.json').then(mod => ({ ...mod.default })), []);
+  const [getDemo] = useAsyncResource(() => import('./demo.json'), []);
   return (
     <Suspense>
       <Component getDemo={getDemo} />

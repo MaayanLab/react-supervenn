@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-    typeof define === 'function' && define.amd ? define('react_supervenn', ['exports'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.react_supervenn = {}));
-})(this, (function (exports) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react')) :
+    typeof define === 'function' && define.amd ? define('react_supervenn', ['exports', 'react'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.react_supervenn = {}, global.React));
+})(this, (function (exports, React) { 'use strict';
 
     /******************************************************************************
     Copyright (c) Microsoft Corporation.
@@ -41,58 +41,6 @@
     };
 
     var reactDom_production_min = {};
-
-    var reactExports = {};
-    var react = {
-      get exports(){ return reactExports; },
-      set exports(v){ reactExports = v; },
-    };
-
-    var react_production_min = {};
-
-    /**
-     * @license React
-     * react.production.min.js
-     *
-     * Copyright (c) Facebook, Inc. and its affiliates.
-     *
-     * This source code is licensed under the MIT license found in the
-     * LICENSE file in the root directory of this source tree.
-     */
-
-    var hasRequiredReact_production_min;
-
-    function requireReact_production_min () {
-    	if (hasRequiredReact_production_min) return react_production_min;
-    	hasRequiredReact_production_min = 1;
-    var l=Symbol.for("react.element"),n=Symbol.for("react.portal"),p=Symbol.for("react.fragment"),q=Symbol.for("react.strict_mode"),r=Symbol.for("react.profiler"),t=Symbol.for("react.provider"),u=Symbol.for("react.context"),v=Symbol.for("react.forward_ref"),w=Symbol.for("react.suspense"),x=Symbol.for("react.memo"),y=Symbol.for("react.lazy"),z=Symbol.iterator;function A(a){if(null===a||"object"!==typeof a)return null;a=z&&a[z]||a["@@iterator"];return "function"===typeof a?a:null}
-    	var B={isMounted:function(){return !1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},C=Object.assign,D={};function E(a,b,e){this.props=a;this.context=b;this.refs=D;this.updater=e||B;}E.prototype.isReactComponent={};
-    	E.prototype.setState=function(a,b){if("object"!==typeof a&&"function"!==typeof a&&null!=a)throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");this.updater.enqueueSetState(this,a,b,"setState");};E.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate");};function F(){}F.prototype=E.prototype;function G(a,b,e){this.props=a;this.context=b;this.refs=D;this.updater=e||B;}var H=G.prototype=new F;
-    	H.constructor=G;C(H,E.prototype);H.isPureReactComponent=!0;var I=Array.isArray,J=Object.prototype.hasOwnProperty,K={current:null},L={key:!0,ref:!0,__self:!0,__source:!0};
-    	function M(a,b,e){var d,c={},k=null,h=null;if(null!=b)for(d in void 0!==b.ref&&(h=b.ref),void 0!==b.key&&(k=""+b.key),b)J.call(b,d)&&!L.hasOwnProperty(d)&&(c[d]=b[d]);var g=arguments.length-2;if(1===g)c.children=e;else if(1<g){for(var f=Array(g),m=0;m<g;m++)f[m]=arguments[m+2];c.children=f;}if(a&&a.defaultProps)for(d in g=a.defaultProps,g)void 0===c[d]&&(c[d]=g[d]);return {$$typeof:l,type:a,key:k,ref:h,props:c,_owner:K.current}}
-    	function N(a,b){return {$$typeof:l,type:a.type,key:b,ref:a.ref,props:a.props,_owner:a._owner}}function O(a){return "object"===typeof a&&null!==a&&a.$$typeof===l}function escape(a){var b={"=":"=0",":":"=2"};return "$"+a.replace(/[=:]/g,function(a){return b[a]})}var P=/\/+/g;function Q(a,b){return "object"===typeof a&&null!==a&&null!=a.key?escape(""+a.key):b.toString(36)}
-    	function R(a,b,e,d,c){var k=typeof a;if("undefined"===k||"boolean"===k)a=null;var h=!1;if(null===a)h=!0;else switch(k){case "string":case "number":h=!0;break;case "object":switch(a.$$typeof){case l:case n:h=!0;}}if(h)return h=a,c=c(h),a=""===d?"."+Q(h,0):d,I(c)?(e="",null!=a&&(e=a.replace(P,"$&/")+"/"),R(c,b,e,"",function(a){return a})):null!=c&&(O(c)&&(c=N(c,e+(!c.key||h&&h.key===c.key?"":(""+c.key).replace(P,"$&/")+"/")+a)),b.push(c)),1;h=0;d=""===d?".":d+":";if(I(a))for(var g=0;g<a.length;g++){k=
-    	a[g];var f=d+Q(k,g);h+=R(k,b,e,f,c);}else if(f=A(a),"function"===typeof f)for(a=f.call(a),g=0;!(k=a.next()).done;)k=k.value,f=d+Q(k,g++),h+=R(k,b,e,f,c);else if("object"===k)throw b=String(a),Error("Objects are not valid as a React child (found: "+("[object Object]"===b?"object with keys {"+Object.keys(a).join(", ")+"}":b)+"). If you meant to render a collection of children, use an array instead.");return h}
-    	function S(a,b,e){if(null==a)return a;var d=[],c=0;R(a,d,"","",function(a){return b.call(e,a,c++)});return d}function T(a){if(-1===a._status){var b=a._result;b=b();b.then(function(b){if(0===a._status||-1===a._status)a._status=1,a._result=b;},function(b){if(0===a._status||-1===a._status)a._status=2,a._result=b;});-1===a._status&&(a._status=0,a._result=b);}if(1===a._status)return a._result.default;throw a._result;}
-    	var U={current:null},V={transition:null},W={ReactCurrentDispatcher:U,ReactCurrentBatchConfig:V,ReactCurrentOwner:K};react_production_min.Children={map:S,forEach:function(a,b,e){S(a,function(){b.apply(this,arguments);},e);},count:function(a){var b=0;S(a,function(){b++;});return b},toArray:function(a){return S(a,function(a){return a})||[]},only:function(a){if(!O(a))throw Error("React.Children.only expected to receive a single React element child.");return a}};react_production_min.Component=E;react_production_min.Fragment=p;
-    	react_production_min.Profiler=r;react_production_min.PureComponent=G;react_production_min.StrictMode=q;react_production_min.Suspense=w;react_production_min.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED=W;
-    	react_production_min.cloneElement=function(a,b,e){if(null===a||void 0===a)throw Error("React.cloneElement(...): The argument must be a React element, but you passed "+a+".");var d=C({},a.props),c=a.key,k=a.ref,h=a._owner;if(null!=b){void 0!==b.ref&&(k=b.ref,h=K.current);void 0!==b.key&&(c=""+b.key);if(a.type&&a.type.defaultProps)var g=a.type.defaultProps;for(f in b)J.call(b,f)&&!L.hasOwnProperty(f)&&(d[f]=void 0===b[f]&&void 0!==g?g[f]:b[f]);}var f=arguments.length-2;if(1===f)d.children=e;else if(1<f){g=Array(f);
-    	for(var m=0;m<f;m++)g[m]=arguments[m+2];d.children=g;}return {$$typeof:l,type:a.type,key:c,ref:k,props:d,_owner:h}};react_production_min.createContext=function(a){a={$$typeof:u,_currentValue:a,_currentValue2:a,_threadCount:0,Provider:null,Consumer:null,_defaultValue:null,_globalName:null};a.Provider={$$typeof:t,_context:a};return a.Consumer=a};react_production_min.createElement=M;react_production_min.createFactory=function(a){var b=M.bind(null,a);b.type=a;return b};react_production_min.createRef=function(){return {current:null}};
-    	react_production_min.forwardRef=function(a){return {$$typeof:v,render:a}};react_production_min.isValidElement=O;react_production_min.lazy=function(a){return {$$typeof:y,_payload:{_status:-1,_result:a},_init:T}};react_production_min.memo=function(a,b){return {$$typeof:x,type:a,compare:void 0===b?null:b}};react_production_min.startTransition=function(a){var b=V.transition;V.transition={};try{a();}finally{V.transition=b;}};react_production_min.unstable_act=function(){throw Error("act(...) is not supported in production builds of React.");};
-    	react_production_min.useCallback=function(a,b){return U.current.useCallback(a,b)};react_production_min.useContext=function(a){return U.current.useContext(a)};react_production_min.useDebugValue=function(){};react_production_min.useDeferredValue=function(a){return U.current.useDeferredValue(a)};react_production_min.useEffect=function(a,b){return U.current.useEffect(a,b)};react_production_min.useId=function(){return U.current.useId()};react_production_min.useImperativeHandle=function(a,b,e){return U.current.useImperativeHandle(a,b,e)};
-    	react_production_min.useInsertionEffect=function(a,b){return U.current.useInsertionEffect(a,b)};react_production_min.useLayoutEffect=function(a,b){return U.current.useLayoutEffect(a,b)};react_production_min.useMemo=function(a,b){return U.current.useMemo(a,b)};react_production_min.useReducer=function(a,b,e){return U.current.useReducer(a,b,e)};react_production_min.useRef=function(a){return U.current.useRef(a)};react_production_min.useState=function(a){return U.current.useState(a)};react_production_min.useSyncExternalStore=function(a,b,e){return U.current.useSyncExternalStore(a,b,e)};
-    	react_production_min.useTransition=function(){return U.current.useTransition()};react_production_min.version="18.2.0";
-    	return react_production_min;
-    }
-
-    (function (module) {
-
-    	{
-    	  module.exports = requireReact_production_min();
-    	}
-    } (react));
-
-    var React = /*@__PURE__*/getDefaultExportFromCjs(reactExports);
 
     var schedulerExports = {};
     var scheduler = {
@@ -161,7 +109,7 @@
     function requireReactDom_production_min () {
     	if (hasRequiredReactDom_production_min) return reactDom_production_min;
     	hasRequiredReactDom_production_min = 1;
-    var aa=reactExports,ca=requireScheduler();function p(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return "Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}var da=new Set,ea={};function fa(a,b){ha(a,b);ha(a+"Capture",b);}
+    var aa=React,ca=requireScheduler();function p(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return "Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}var da=new Set,ea={};function fa(a,b){ha(a,b);ha(a+"Capture",b);}
     	function ha(a,b){ea[a]=b;for(a=0;a<b.length;a++)da.add(b[a]);}
     	var ia=!("undefined"===typeof window||"undefined"===typeof window.document||"undefined"===typeof window.document.createElement),ja=Object.prototype.hasOwnProperty,ka=/^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/,la=
     	{},ma={};function oa(a){if(ja.call(ma,a))return !0;if(ja.call(la,a))return !1;if(ka.test(a))return ma[a]=!0;la[a]=!0;return !1}function pa(a,b,c,d){if(null!==c&&0===c.type)return !1;switch(typeof b){case "function":case "symbol":return !0;case "boolean":if(d)return !1;if(null!==c)return !c.acceptsBooleans;a=a.toLowerCase().slice(0,5);return "data-"!==a&&"aria-"!==a;default:return !1}}
@@ -596,7 +544,7 @@
       }
     }
 
-    var css_248z = "\n.react-supervenn-layout {\n  flex: 1 1 auto;\n  overflow: hidden;\n  display: grid;\n  grid:\n      \".           .           ycount      .          \" 1fr\n      \"ylabel      yticks      data        xcount     \" 2fr\n      \".           .           xticks      .          \" min-content\n      \".           .           xlabel      .          \" min-content\n    /  min-content min-content 2fr        1fr\n  ;\n}\n\n.react-supervenn-data {\n  grid-area: data;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  justify-items: stretch;\n}\n.react-supervenn-data > div {\n  flex: 1 1 auto;\n  overflow: hidden;\n  display: flex;\n  flex-direction: row;\n  background-color: #eee;\n}\n.react-supervenn-data > div.react-supervenn-alternate {\n  background-color: #ddd;\n}\n.react-supervenn-cell {\n  border: 1px solid white;\n  cursor: pointer;\n}\n.react-supervenn-cell.selected {\n  border: 1px solid black;\n}\n\n.react-supervenn-ylabel {\n  grid-area: ylabel;\n  position: relative;\n  width: 50px;\n}\n.react-supervenn-ylabel > div {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translateX(-50%) translateY(-50%) rotate(-90deg);\n  white-space: nowrap;\n  user-select: none;\n}\n\n.react-supervenn-xlabel {\n  grid-area: xlabel;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  user-select: none;\n}\n\n.react-supervenn-yticks {\n  grid-area: yticks;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n}\n.react-supervenn-yticks > div {\n  flex: 1 1 auto;\n  overflow: hidden;\n  display: flex;\n  align-items: center;\n  justify-items: flex-end;\n  border: 1px solid white;\n}\n.react-supervenn-yticks > div > span {\n  user-select: none;\n}\n\n.react-supervenn-xticks {\n  grid-area: xticks;\n  display: flex;\n  flex-direction: row;\n}\n.react-supervenn-xticks > div {\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 1px solid white;\n}\n.react-supervenn-xticks > div > span {\n  user-select: none;\n}\n.react-supervenn-xticks > div.react-supervenn-rotated {\n  position: relative;\n}\n.react-supervenn-xticks > div.react-supervenn-rotated > span {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translateX(-50%) translateY(-50%) rotate(-90deg);\n  white-space: nowrap;\n  user-select: none;\n}\n\n.react-supervenn-ycount {\n  grid-area: ycount;\n  display: flex;\n  flex-direction: row;\n  background-color: #eee;\n}\n.react-supervenn-ycount > div {\n  cursor: pointer;\n  border: 1px solid white;\n  background-color: #eee;\n  display: flex;\n  flex-direction: column;\n  align-content: stretch;\n  justify-content: flex-end;\n}\n.react-supervenn-ycount > div > div {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: #aaa;\n}\n.react-supervenn-ycount > div > div > span {\n  user-select: none;\n}\n\n.react-supervenn-xcount {\n  grid-area: xcount;\n  display: flex;\n  flex-direction: column;\n  background-color: #eee;\n}\n.react-supervenn-xcount > div {\n  cursor: pointer;\n  border: 1px solid white;\n  flex: 1 0 auto;\n  display: flex;\n  flex-direction: column;\n}\n.react-supervenn-xcount > div.react-supervenn-alternate {\n  background-color: #ddd;\n}\n.react-supervenn-xcount > div > div {\n  flex: 1 0 auto;\n  display: flex;\n  align-items: center;\n  justify-items: flex-end;\n  align-items: center;\n  background-color: #aaa;\n}\n.react-supervenn-xcount > div > div > span {\n  user-select: none;\n}\n\n.react-supervenn-clickable {\n  cursor: pointer;\n  text-decoration: underline;\n}\n.react-supervenn-clickable:active {\n  color: darkred;\n}\n";
+    var css_248z = "\n.react-supervenn-layout {\n  flex: 1 1 auto;\n  overflow: hidden;\n  display: grid;\n  grid:\n      \".           .           ycount      .          \" min-content\n      \"ylabel      yticks      data        xcount     \" auto\n      \".           .           xticks      .          \" min-content\n      \"sets        sets        xlabel      items      \" min-content\n    /  min-content min-content minmax(min-content, 2fr) minmax(min-content, 1fr)\n  ;\n  resize: vertical;\n}\n\n.react-supervenn-data {\n  grid-area: data;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  justify-items: stretch;\n}\n.react-supervenn-data > div {\n  flex: 1 1 auto;\n  overflow: hidden;\n  display: flex;\n  flex-direction: row;\n  background-color: #eee;\n}\n.react-supervenn-data > div.react-supervenn-alternate {\n  background-color: #ddd;\n}\n.react-supervenn-cell {\n  border: 2px solid white;\n  cursor: pointer;\n}\n.react-supervenn-cell.react-supervenn-selected {\n  border: 2px solid black;\n}\n\n.react-supervenn-ylabel {\n  grid-area: ylabel;\n  position: relative;\n  width: 50px;\n}\n.react-supervenn-ylabel > div {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translateX(-50%) translateY(-50%) rotate(-90deg);\n  white-space: nowrap;\n  user-select: none;\n}\n\n.react-supervenn-xlabel {\n  grid-area: xlabel;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  user-select: none;\n}\n\n.react-supervenn-yticks {\n  grid-area: yticks;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n}\n.react-supervenn-yticks .react-supervenn-selected {\n  font-weight: bold;\n}\n.react-supervenn-yticks > div {\n  flex: 1 1 auto;\n  overflow: hidden;\n  display: flex;\n  align-items: center;\n  justify-items: flex-end;\n  border: 2px solid white;\n  cursor: pointer;\n}\n.react-supervenn-yticks > div > span {\n  user-select: none;\n}\n\n.react-supervenn-xticks {\n  grid-area: xticks;\n  display: flex;\n  flex-direction: row;\n}\n.react-supervenn-xticks .react-supervenn-selected {\n  font-weight: bold;\n}\n.react-supervenn-xticks > div {\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 2px solid white;\n  cursor: pointer;\n}\n.react-supervenn-xticks > div > span {\n  user-select: none;\n}\n.react-supervenn-xticks > div.react-supervenn-rotated {\n  position: relative;\n}\n.react-supervenn-xticks > div.react-supervenn-rotated > span {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translateX(-50%) translateY(-50%) rotate(-90deg);\n  white-space: nowrap;\n  user-select: none;\n}\n\n.react-supervenn-ycount {\n  grid-area: ycount;\n  display: flex;\n  flex-direction: row;\n  background-color: #eee;\n  height: 50px;\n}\n.react-supervenn-ycount > div {\n  cursor: pointer;\n  border: 2px solid white;\n  background-color: #eee;\n  display: flex;\n  flex-direction: column;\n  align-content: stretch;\n  justify-content: flex-end;\n}\n.react-supervenn-ycount > div > div {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: #aaa;\n}\n.react-supervenn-ycount > div > div > span {\n  user-select: none;\n}\n\n.react-supervenn-xcount {\n  grid-area: xcount;\n  display: flex;\n  flex-direction: column;\n  background-color: #eee;\n}\n.react-supervenn-xcount > div {\n  cursor: pointer;\n  border: 2px solid white;\n  flex: 1 0 auto;\n  display: flex;\n  flex-direction: column;\n}\n.react-supervenn-xcount > div.react-supervenn-alternate {\n  background-color: #ddd;\n}\n.react-supervenn-xcount > div > div {\n  flex: 1 0 auto;\n  display: flex;\n  align-items: center;\n  justify-items: flex-end;\n  align-items: center;\n  background-color: #aaa;\n}\n.react-supervenn-xcount > div > div > span {\n  user-select: none;\n}\n\n.react-supervenn-sets {\n  grid-area: sets;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  justify-items: stretch;\n}\n.react-supervenn-sets > textarea { \n  flex: 1 0 auto;\n  resize: none;\n}\n\n.react-supervenn-items {\n  grid-area: items;\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n  justify-items: stretch;\n}\n.react-supervenn-items > textarea { \n  flex: 1 0 auto;\n  resize: none;\n}";
     styleInject(css_248z);
 
     var as_percent = function (x) { return "".concat(100 * x, "%"); };
@@ -607,24 +555,29 @@
     var ReactSupervenn$1 = function (_a) {
         var sets = _a.sets, set_annotations = _a.set_annotations, chunks = _a.chunks, composition_array = _a.composition_array, effective_min_width_for_annotation = _a.effective_min_width_for_annotation, col_widths = _a.col_widths, n_items = _a.n_items, ycounts = _a.ycounts, rotate_col_annotations = _a.rotate_col_annotations, color_by = _a.color_by, color_cycle = _a.color_cycle, alternating_background = _a.alternating_background;
         var _b = React.useState({}), selection = _b[0], setSelection = _b[1];
-        var selectedSets = {};
-        var selectedItems = {};
-        for (var k in selection) {
-            if (!selection[k])
-                continue;
-            var _c = k.split('.'), row = _c[0], col = _c[1];
-            selectedSets[set_annotations[row]] = true;
-            for (var _i = 0, _d = chunks[col]; _i < _d.length; _i++) {
-                var item = _d[_i];
-                selectedItems[item] = true;
+        var _c = React.useMemo(function () {
+            var selectedRows = {};
+            var selectedCols = {};
+            var selectedItems = {};
+            for (var k in selection) {
+                if (!selection[k])
+                    continue;
+                var _a = k.split('.'), row = _a[0], col = _a[1];
+                selectedRows[row] = true;
+                selectedCols[col] = true;
+                for (var _i = 0, _b = chunks[col]; _i < _b.length; _i++) {
+                    var item = _b[_i];
+                    selectedItems[item] = true;
+                }
             }
-        }
+            return { selectedRows: selectedRows, selectedCols: selectedCols, selectedItems: selectedItems };
+        }, [selection]), selectedRows = _c.selectedRows, selectedCols = _c.selectedCols, selectedItems = _c.selectedItems;
         return (React.createElement("div", { className: "react-supervenn-layout" },
-            React.createElement("div", { className: "react-supervenn-data" }, composition_array.map(function (cells, row) { return (React.createElement("div", { key: row, className: classNames({ "react-supervenn-alternate": alternating_background && row % 2 == 0 }) }, cells.map(function (cell, col) {
+            React.createElement("div", { className: "react-supervenn-data" }, composition_array.map(function (cells, row) { return (React.createElement("div", { key: row, className: classNames({ 'react-supervenn-alternate': alternating_background && row % 2 == 0 }) }, cells.map(function (cell, col) {
                 if (cell === 1) {
                     return (React.createElement("div", { key: col, className: classNames({
-                            "react-supervenn-cell": true,
-                            "react-supervenn-selected": selection["".concat(row, ".").concat(col)],
+                            'react-supervenn-cell': true,
+                            'react-supervenn-selected': selection["".concat(row, ".").concat(col)],
                         }), onClick: function (_) {
                             setSelection(function (selection) {
                                 var _a;
@@ -646,25 +599,46 @@
             React.createElement("div", { className: "react-supervenn-ylabel" },
                 React.createElement("div", null,
                     "SETS (",
-                    React.createElement("span", { className: "react-supervenn-clickable", onClick: function (_) {
-                            navigator.clipboard.writeText(Object.keys(selectedSets).join('\n'));
-                        } },
-                        Object.keys(selectedSets).length,
+                    React.createElement("span", null,
+                        Object.keys(selectedRows).length,
                         " sets"),
                     ")")),
             React.createElement("div", { className: "react-supervenn-xlabel" },
                 "ITEMS (",
-                React.createElement("span", { className: "react-supervenn-clickable", onClick: function (_) {
-                        return navigator.clipboard.writeText(Object.keys(selectedItems).join('\n'));
-                    } },
+                React.createElement("span", null,
                     Object.keys(selectedItems).length,
                     " items"),
                 ")"),
-            React.createElement("div", { className: "react-supervenn-yticks" }, sets.map(function (_, row) { return (React.createElement("div", { key: row, title: JSON.stringify(sets[row]) },
+            React.createElement("div", { className: "react-supervenn-yticks" }, sets.map(function (_, row) { return (React.createElement("div", { key: row, className: classNames({
+                    'react-supervenn-selected': selectedRows[row],
+                }), onClick: function (_) {
+                    setSelection(function (selection) {
+                        var _selection = __assign({}, selection);
+                        for (var col in Object.keys(chunks)) {
+                            if (composition_array[row][col]) {
+                                _selection["".concat(row, ".").concat(col)] = !selectedRows[row];
+                            }
+                        }
+                        return _selection;
+                    });
+                } },
                 React.createElement("span", null, set_annotations[row]))); })),
-            React.createElement("div", { className: "react-supervenn-xticks" }, chunks.map(function (chunk, col) { return (React.createElement("div", { key: col, className: classNames({ "react-supervenn-rotated": rotate_col_annotations }), style: {
+            React.createElement("div", { className: "react-supervenn-xticks" }, chunks.map(function (chunk, col) { return (React.createElement("div", { key: col, className: classNames({
+                    'react-supervenn-selected': selectedCols[col],
+                    'react-supervenn-rotated': rotate_col_annotations,
+                }), style: {
                     width: as_percent(col_widths[col] / n_items),
-                }, title: JSON.stringify(chunk) },
+                }, onClick: function (_) {
+                    setSelection(function (selection) {
+                        var _selection = __assign({}, selection);
+                        for (var row in composition_array) {
+                            if (composition_array[row][col]) {
+                                _selection["".concat(row, ".").concat(col)] = !selectedCols[col];
+                            }
+                        }
+                        return _selection;
+                    });
+                } },
                 React.createElement("span", null, chunks[col].length >= effective_min_width_for_annotation ?
                     chunks[col].length
                     : null))); })),
@@ -675,7 +649,7 @@
                         var _selection = __assign({}, selection);
                         for (var row in composition_array) {
                             if (composition_array[row][col]) {
-                                _selection["".concat(row, ".").concat(col)] = !_selection["".concat(row, ".").concat(col)];
+                                _selection["".concat(row, ".").concat(col)] = !selectedCols[col];
                             }
                         }
                         return _selection;
@@ -687,12 +661,12 @@
                     React.createElement("span", null, chunks[col].length >= effective_min_width_for_annotation ?
                         ycounts[col]
                         : null)))); })),
-            React.createElement("div", { className: "react-supervenn-xcount" }, sets.map(function (_, row) { return (React.createElement("div", { key: row, className: classNames({ "react-supervenn-alternate": alternating_background && row % 2 == 0 }), title: JSON.stringify(sets[row]), onClick: function (_) {
+            React.createElement("div", { className: "react-supervenn-xcount" }, sets.map(function (_, row) { return (React.createElement("div", { key: row, className: classNames({ 'react-supervenn-alternate': alternating_background && row % 2 == 0 }), onClick: function (_) {
                     setSelection(function (selection) {
                         var _selection = __assign({}, selection);
                         for (var col in Object.keys(chunks)) {
                             if (composition_array[row][col]) {
-                                _selection["".concat(row, ".").concat(col)] = !_selection["".concat(row, ".").concat(col)];
+                                _selection["".concat(row, ".").concat(col)] = !selectedRows[row];
                             }
                         }
                         return _selection;
@@ -701,7 +675,17 @@
                 React.createElement("div", { style: {
                         width: as_percent(sets[row].length / n_items),
                     } },
-                    React.createElement("span", null, sets[row].length)))); }))));
+                    React.createElement("span", null, sets[row].length)))); })),
+            React.createElement("div", { className: "react-supervenn-sets" },
+                React.createElement("textarea", { rows: 5, readOnly: true, onSelect: function (evt) {
+                        evt.currentTarget.select();
+                        navigator.clipboard.writeText(Object.keys(selectedRows).map(function (s) { return set_annotations[s]; }).join('\n'));
+                    }, placeholder: "Selected sets show up here, click to copy", value: Object.keys(selectedRows).map(function (s) { return set_annotations[s]; }).join('\n') })),
+            React.createElement("div", { className: "react-supervenn-items" },
+                React.createElement("textarea", { rows: 5, readOnly: true, onSelect: function (evt) {
+                        evt.currentTarget.select();
+                        navigator.clipboard.writeText(Object.keys(selectedItems).join('\n'));
+                    }, placeholder: "Selected items show up here, click to copy", value: Object.keys(selectedItems).join('\n') }))));
     };
 
     function ReactSupervenn(container, props) {

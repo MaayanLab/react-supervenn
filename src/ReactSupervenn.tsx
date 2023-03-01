@@ -72,23 +72,28 @@ const ReactSupervenn: React.FC<{
   alternating_background,
 }) => {
   const [selection, setSelection] = React.useState({})
-  const selectedSets = {}
-  const selectedItems = {}
-  for (const k in selection) {
-    if (!selection[k]) continue
-    const [row, col] = k.split('.')
-    selectedSets[set_annotations[row]] = true
-    for (const item of chunks[col]) {
-      selectedItems[item] = true
+  const { selectedRows, selectedCols, selectedItems } = React.useMemo(() => {
+    const selectedRows = {}
+    const selectedCols = {}
+    const selectedItems = {}
+    for (const k in selection) {
+      if (!selection[k]) continue
+      const [row, col] = k.split('.')
+      selectedRows[row] = true
+      selectedCols[col] = true
+      for (const item of chunks[col]) {
+        selectedItems[item] = true
+      }
     }
-  }
+    return { selectedRows, selectedCols, selectedItems }
+  }, [selection])
   return (
     <div className="react-supervenn-layout">
       <div className="react-supervenn-data">
         {composition_array.map((cells, row) => (
           <div
             key={row}
-            className={classNames({ "react-supervenn-alternate": alternating_background && row % 2 == 0 })}
+            className={classNames({ 'react-supervenn-alternate': alternating_background && row % 2 == 0 })}
           >
             {cells.map((cell, col) => {
               if (cell === 1) {
@@ -96,8 +101,8 @@ const ReactSupervenn: React.FC<{
                   <div
                     key={col}
                     className={classNames({
-                      "react-supervenn-cell": true,
-                      "react-supervenn-selected": selection[`${row}.${col}`],
+                      'react-supervenn-cell': true,
+                      'react-supervenn-selected': selection[`${row}.${col}`],
                     })}
                     onClick={_ => {
                       setSelection(
@@ -129,25 +134,32 @@ const ReactSupervenn: React.FC<{
         ))}
       </div>
       <div className="react-supervenn-ylabel">
-        <div>SETS (<span
-          className="react-supervenn-clickable"
-          onClick={_ => {
-            navigator.clipboard.writeText(Object.keys(selectedSets).join('\n'))
-          }}>{Object.keys(selectedSets).length} sets</span>)
+        <div>SETS (<span>{Object.keys(selectedRows).length} sets</span>)
         </div>
       </div>
       <div className="react-supervenn-xlabel">
-        ITEMS (<span 
-          className="react-supervenn-clickable"
-          onClick={_ =>
-            navigator.clipboard.writeText(Object.keys(selectedItems).join('\n'))
-          }>{Object.keys(selectedItems).length} items</span>)
+        ITEMS (<span>{Object.keys(selectedItems).length} items</span>)
       </div>
       <div className="react-supervenn-yticks">
         {sets.map((_, row) => (
           <div
             key={row}
-            title={JSON.stringify(sets[row])}
+            className={classNames({
+              'react-supervenn-selected': selectedRows[row],
+            })}
+            onClick={_ => {
+              setSelection(
+                selection => {
+                  const _selection = {...selection}
+                  for (const col in Object.keys(chunks)) {
+                    if (composition_array[row][col]) {
+                      _selection[`${row}.${col}`] = !selectedRows[row]
+                    }
+                  }
+                  return _selection
+                }
+              )
+            }}
           ><span>{set_annotations[row]}</span></div>
         ))}
       </div>
@@ -155,11 +167,27 @@ const ReactSupervenn: React.FC<{
         {chunks.map((chunk, col) => (
           <div
             key={col}
-            className={classNames({ "react-supervenn-rotated": rotate_col_annotations })}
+            className={classNames({
+              'react-supervenn-selected': selectedCols[col],
+              'react-supervenn-rotated': rotate_col_annotations,
+            })}
             style={{
               width: as_percent(col_widths[col] / n_items),
             }}
-            title={JSON.stringify(chunk)}>
+            onClick={_ => {
+              setSelection(
+                selection => {
+                  const _selection = {...selection}
+                  for (const row in composition_array) {
+                    if (composition_array[row][col]) {
+                      _selection[`${row}.${col}`] = !selectedCols[col]
+                    }
+                  }
+                  return _selection
+                }
+              )
+            }}
+          >
             <span>
               {chunks[col].length >= effective_min_width_for_annotation ?
                 chunks[col].length
@@ -181,7 +209,7 @@ const ReactSupervenn: React.FC<{
                   const _selection = {...selection}
                   for (const row in composition_array) {
                     if (composition_array[row][col]) {
-                      _selection[`${row}.${col}`] = !_selection[`${row}.${col}`]
+                      _selection[`${row}.${col}`] = !selectedCols[col]
                     }
                   }
                   return _selection
@@ -206,15 +234,14 @@ const ReactSupervenn: React.FC<{
         {sets.map((_, row) => (
           <div
             key={row}
-            className={classNames({ "react-supervenn-alternate": alternating_background && row % 2 == 0 })}
-            title={JSON.stringify(sets[row])}
+            className={classNames({ 'react-supervenn-alternate': alternating_background && row % 2 == 0 })}
             onClick={_ => {
               setSelection(
                 selection => {
                   const _selection = {...selection}
                   for (const col in Object.keys(chunks)) {
                     if (composition_array[row][col]) {
-                      _selection[`${row}.${col}`] = !_selection[`${row}.${col}`]
+                      _selection[`${row}.${col}`] = !selectedRows[row]
                     }
                   }
                   return _selection
@@ -229,6 +256,30 @@ const ReactSupervenn: React.FC<{
             ><span>{sets[row].length}</span></div>
           </div>
         ))}
+      </div>
+      <div className="react-supervenn-sets">
+        <textarea
+          rows={5}
+          readOnly
+          onSelect={evt => {
+            evt.currentTarget.select()
+            navigator.clipboard.writeText(Object.keys(selectedRows).map(s => set_annotations[s]).join('\n'))
+          }}
+          placeholder="Selected sets show up here, click to copy"
+          value={Object.keys(selectedRows).map(s => set_annotations[s]).join('\n')}
+        />
+      </div>
+      <div className="react-supervenn-items">
+        <textarea
+          rows={5}
+          readOnly
+          onSelect={evt => {
+            evt.currentTarget.select()
+            navigator.clipboard.writeText(Object.keys(selectedItems).join('\n'))
+          }}
+          placeholder="Selected items show up here, click to copy"
+          value={Object.keys(selectedItems).join('\n')}
+        />
       </div>
     </div>
   )

@@ -4,12 +4,13 @@
   overflow: hidden;
   display: grid;
   grid:
-      ".           .           ycount      .          " 1fr
-      "ylabel      yticks      data        xcount     " 2fr
+      ".           .           ycount      .          " min-content
+      "ylabel      yticks      data        xcount     " auto
       ".           .           xticks      .          " min-content
-      ".           .           xlabel      .          " min-content
-    /  min-content min-content 2fr        1fr
+      "sets        sets        xlabel      items      " min-content
+    /  min-content min-content minmax(min-content, 2fr) minmax(min-content, 1fr)
   ;
+  resize: vertical;
 }
 
 .react-supervenn-data {
@@ -30,11 +31,11 @@
   background-color: #ddd;
 }
 .react-supervenn-cell {
-  border: 1px solid white;
+  border: 2px solid white;
   cursor: pointer;
 }
 .react-supervenn-cell.react-supervenn-selected {
-  border: 1px solid black;
+  border: 2px solid black;
 }
 
 .react-supervenn-ylabel {
@@ -66,13 +67,17 @@
   flex-direction: column;
   align-items: stretch;
 }
+.react-supervenn-yticks .react-supervenn-selected {
+  font-weight: bold;
+}
 .react-supervenn-yticks > div {
   flex: 1 1 auto;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-items: flex-end;
-  border: 1px solid white;
+  border: 2px solid white;
+  cursor: pointer;
 }
 .react-supervenn-yticks > div > span {
   user-select: none;
@@ -83,12 +88,16 @@
   display: flex;
   flex-direction: row;
 }
+.react-supervenn-xticks .react-supervenn-selected {
+  font-weight: bold;
+}
 .react-supervenn-xticks > div {
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid white;
+  border: 2px solid white;
+  cursor: pointer;
 }
 .react-supervenn-xticks > div > span {
   user-select: none;
@@ -110,10 +119,11 @@
   display: flex;
   flex-direction: row;
   background-color: #eee;
+  height: 50px;
 }
 .react-supervenn-ycount > div {
   cursor: pointer;
-  border: 1px solid white;
+  border: 2px solid white;
   background-color: #eee;
   display: flex;
   flex-direction: column;
@@ -138,7 +148,7 @@
 }
 .react-supervenn-xcount > div {
   cursor: pointer;
-  border: 1px solid white;
+  border: 2px solid white;
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
@@ -158,10 +168,26 @@
   user-select: none;
 }
 
-.react-supervenn-clickable {
-  cursor: pointer;
-  text-decoration: underline;
+.react-supervenn-sets {
+  grid-area: sets;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-items: stretch;
 }
-.react-supervenn-clickable:active {
-  color: darkred;
+.react-supervenn-sets > textarea { 
+  flex: 1 0 auto;
+  resize: none;
+}
+
+.react-supervenn-items {
+  grid-area: items;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-items: stretch;
+}
+.react-supervenn-items > textarea { 
+  flex: 1 0 auto;
+  resize: none;
 }

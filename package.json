@@ -2,6 +2,13 @@
   "name": "react-supervenn",
   "version": "0.0.1",
   "description": "An interactive React implementation of [supervenn](https://github.com/gecko984/supervenn).",
+  "exports": {
+    ".": {
+      "types": "./dist/lib/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    }
+  },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/lib/index.d.ts",

@@ -4,7 +4,7 @@
   "description": "An interactive React implementation of [supervenn](https://github.com/gecko984/supervenn).",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
-  "types": "dist/list/index.d.ts",
+  "types": "dist/lib/index.d.ts",
   "umd": "dist/index.umd.js",
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs && cp dist/index.umd.js react_supervenn/react_supervenn.js",

@@ -1,1 +1,2 @@
-export * from './ReactSupervenn'
+import ReactSupervenn from './ReactSupervenn'
+export default ReactSupervenn

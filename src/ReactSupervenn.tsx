@@ -1,21 +1,63 @@
 import React from 'react'
+import classNames from 'classnames'
+import './ReactSupervenn.css'
 
-function classes(...C) {
-  if (C.length === 1 && typeof C[0] === 'object') {
-    const _C = []
-    for (const c in C[0]) {
-      if (C[0][c]) {
-        _C.push(c)
-      }
-    }
-    return _C.join(' ')
-  } else {
-    return C.join(' ')
-  }
-}
+const as_percent = (x: number) => `${100*x}%`
 
-export default function ReactSupervenn({
-  style,
+/**
+ * A react component to render supervenn in HTML
+ * 
+ */
+const ReactSupervenn: React.FC<{
+  /**
+   * list of sets
+   */
+  sets: number[][],
+  /**
+   * list of annotations for the sets
+   */
+  set_annotations: string[],
+  /**
+   * list of chunks
+   */
+  chunks: number[][],
+  /**
+   * 
+   */
+  composition_array: number[][],
+  /**
+   * 
+   */
+  effective_min_width_for_annotation: number,
+  /**
+   * 
+   */
+  col_widths: number[],
+  /**
+   * 
+   */
+  n_items: number,
+  /**
+   * 
+   */
+  ycounts: number[],
+  /**
+   * True / False, whether to print annotations vertically
+   */
+  rotate_col_annotations: boolean,
+  /**
+   * 
+   */
+  color_by: 'row' | 'column',
+  /**
+   * a list of set colors, given as names of matplotlib named colors, or hex codes (e.g. '#1f77b4')
+   */
+  color_cycle: string[],
+  /**
+   * True (default) / False - give avery second row a slight grey tint
+   */
+  alternating_background: boolean,
+}> = ({
   sets,
   set_annotations,
   chunks,
@@ -28,9 +70,7 @@ export default function ReactSupervenn({
   color_by,
   color_cycle,
   alternating_background,
-}) {
-  const W = (w) => `${100 * w}%`
-  const H = (h) => `${100 * h}%`
+}) => {
   const [selection, setSelection] = React.useState({})
   const selectedSets = {}
   const selectedItems = {}
@@ -43,23 +83,21 @@ export default function ReactSupervenn({
     }
   }
   return (
-    <div
-      className={style.layout}
-    >
-      <div className={style.data}>
+    <div className="react-supervenn-layout">
+      <div className="react-supervenn-data">
         {composition_array.map((cells, row) => (
           <div
             key={row}
-            className={classes({ [style.alternate]: alternating_background && row % 2 == 0 })}
+            className={classNames({ "react-supervenn-alternate": alternating_background && row % 2 == 0 })}
           >
             {cells.map((cell, col) => {
               if (cell === 1) {
                 return (
                   <div
                     key={col}
-                    className={classes({
-                      [style.cell]: true,
-                      [style.selected]: selection[`${row}.${col}`],
+                    className={classNames({
+                      "react-supervenn-cell": true,
+                      "react-supervenn-selected": selection[`${row}.${col}`],
                     })}
                     onClick={_ => {
                       setSelection(
@@ -70,7 +108,7 @@ export default function ReactSupervenn({
                       )
                     }}
                     style={{
-                      width: W(col_widths[col] / n_items),
+                      width: as_percent(col_widths[col] / n_items),
                       backgroundColor: color_by === 'column' ? color_cycle[col % color_cycle.length] : color_cycle[row % color_cycle.length],
                       userSelect: 'none',
                     }}>&nbsp;</div>
@@ -79,9 +117,9 @@ export default function ReactSupervenn({
                 return (
                   <div
                     key={col}
-                    className={style.cell}
+                    className="react-supervenn-cell"
                     style={{
-                      width: W(col_widths[col] / n_items),
+                      width: as_percent(col_widths[col] / n_items),
                       userSelect: 'none',
                     }}>&nbsp;</div>
                 )
@@ -90,22 +128,22 @@ export default function ReactSupervenn({
           </div>
         ))}
       </div>
-      <div className={style.ylabel}>
+      <div className="react-supervenn-ylabel">
         <div>SETS (<span
-          className={style.clickable}
+          className="react-supervenn-clickable"
           onClick={_ => {
             navigator.clipboard.writeText(Object.keys(selectedSets).join('\n'))
           }}>{Object.keys(selectedSets).length} sets</span>)
         </div>
       </div>
-      <div className={style.xlabel}>
+      <div className="react-supervenn-xlabel">
         ITEMS (<span 
-          className={style.clickable}
+          className="react-supervenn-clickable"
           onClick={_ =>
             navigator.clipboard.writeText(Object.keys(selectedItems).join('\n'))
           }>{Object.keys(selectedItems).length} items</span>)
       </div>
-      <div className={style.yticks}>
+      <div className="react-supervenn-yticks">
         {sets.map((_, row) => (
           <div
             key={row}
@@ -113,13 +151,13 @@ export default function ReactSupervenn({
           ><span>{set_annotations[row]}</span></div>
         ))}
       </div>
-      <div className={style.xticks}>
+      <div className="react-supervenn-xticks">
         {chunks.map((chunk, col) => (
           <div
             key={col}
-            className={classes({ [style.rotated]: rotate_col_annotations })}
+            className={classNames({ "react-supervenn-rotated": rotate_col_annotations })}
             style={{
-              width: W(col_widths[col] / n_items),
+              width: as_percent(col_widths[col] / n_items),
             }}
             title={JSON.stringify(chunk)}>
             <span>
@@ -130,12 +168,12 @@ export default function ReactSupervenn({
           </div>
         ))}
       </div>
-      <div className={style.ycount}>
+      <div className="react-supervenn-ycount">
         {chunks.map((chunk, col) => (
           <div
             key={col}
             style={{
-              width: W(col_widths[col] / n_items),
+              width: as_percent(col_widths[col] / n_items),
             }}
             onClick={_ => {
               setSelection(
@@ -153,7 +191,7 @@ export default function ReactSupervenn({
           >
             <div
               style={{
-                height: H(ycounts[col] / sets.length),
+                height: as_percent(ycounts[col] / sets.length),
               }}>
                 <span>
                   {chunks[col].length >= effective_min_width_for_annotation ?
@@ -164,11 +202,11 @@ export default function ReactSupervenn({
           </div>
         ))}
       </div>
-      <div className={style.xcount}>
+      <div className="react-supervenn-xcount">
         {sets.map((_, row) => (
           <div
             key={row}
-            className={classes({ [style.alternate]: alternating_background && row % 2 == 0 })}
+            className={classNames({ "react-supervenn-alternate": alternating_background && row % 2 == 0 })}
             title={JSON.stringify(sets[row])}
             onClick={_ => {
               setSelection(
@@ -186,7 +224,7 @@ export default function ReactSupervenn({
           >
             <div
               style={{
-                width: W(sets[row].length / n_items),
+                width: as_percent(sets[row].length / n_items),
               }}
             ><span>{sets[row].length}</span></div>
           </div>
@@ -195,3 +233,5 @@ export default function ReactSupervenn({
     </div>
   )
 }
+
+export default ReactSupervenn

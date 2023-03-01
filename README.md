@@ -18,15 +18,12 @@ See [demo.ipynb](https://nbviewer.jupyter.org/github/MaayanLab/react-supervenn/b
 npm install --save maayanlab/react-supervenn
 ```
 
-#### Usage
-See [src/demo.jsx](./src/demo.jsx) for more info.
-
 #### Development
 ```bash
-npm start
+npm run storybook
 ```
 
 #### Deployment
 ```bash
-npm run build:lib
+npm run build
 ```

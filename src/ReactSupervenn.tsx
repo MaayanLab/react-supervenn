@@ -7,6 +7,22 @@ const maybe_plural = (singular: string, x: number) => {
   if (x === 1) return `${x} ${singular}`
   else return `${x} ${singular}s`
 }
+const pad_left_jsx = (x: number, n?: number) => {
+  const jsx = []
+  let x_str = x.toString()
+  if (n !== undefined) {
+    for (let i = 0; i < n - x_str.length; i++) {
+      jsx.push(<>&nbsp;</>)
+    }
+    jsx.push(<>{x_str}</>)
+  }
+  return <span style={{ whiteSpace: 'pre', fontFamily: 'monospace' }}>{jsx}</span>
+}
+const maybe_plural_jsx = (singular: string, x: number, n: number) => {
+  const x_jsx = pad_left_jsx(x, n)
+  if (x === 1) return <>{x_jsx} &nbsp;{singular}</>
+  else return <>{x_jsx} {singular}s</>
+}
 
 /**
  * A helper to optionally allow a state variable to be controlled by a parent component -- the optional state, dispatch should be provided
@@ -196,7 +212,8 @@ const ReactSupervenn: React.FC<{
           ))}
         </div>
         <div className="react-supervenn-ylabel">
-          <div>{set_label.toUpperCase()}S ({maybe_plural(set_label, sets.length)})
+          <div>
+            {set_label.toUpperCase()}S ({maybe_plural(set_label, sets.length)})
           </div>
         </div>
         <div className="react-supervenn-xlabel">
@@ -322,27 +339,33 @@ const ReactSupervenn: React.FC<{
             </div>
           ))}
         </div>
-        <div className="react-supervenn-sets" onClick={evt => {
-          (evt.currentTarget.children[0] as HTMLTextAreaElement).select()
-          navigator.clipboard.writeText(Object.keys(selectedRows).map(s => set_annotations[s]).join('\n'))
-        }}>
+        <div
+          className="react-supervenn-sets"
+          data-tip={`Click to copy ${maybe_plural(set_label, Object.keys(selectedRows).length)} to clipboard`}
+          onClick={evt => {
+            (evt.currentTarget.children[0] as HTMLTextAreaElement).select()
+            navigator.clipboard.writeText(Object.keys(selectedRows).map(s => set_annotations[s]).join('\n'))
+          }}
+        >
           <textarea
-            rows={3}
             readOnly
             value={Object.keys(selectedRows).map(s => set_annotations[s]).join('\n')}
           />
-          <label>{maybe_plural(set_label, Object.keys(selectedRows).length)}, click to copy</label>
+          <label>{maybe_plural_jsx(set_label, Object.keys(selectedRows).length, Math.ceil(Math.log10(sets.length)))}, <u>📋</u></label>
         </div>
-        <div className="react-supervenn-items" onClick={evt => {
-          (evt.currentTarget.children[0] as HTMLTextAreaElement).select()
-          navigator.clipboard.writeText(Object.keys(selectedItems).join('\n'))
-        }}>
+        <div
+          className="react-supervenn-items"
+          data-tip={`Click to copy ${maybe_plural(item_label, Object.keys(selectedItems).length)} to clipboard`}
+          onClick={evt => {
+            (evt.currentTarget.children[0] as HTMLTextAreaElement).select()
+            navigator.clipboard.writeText(Object.keys(selectedItems).join('\n'))
+          }}
+        >
           <textarea
-            rows={4}
             readOnly
             value={Object.keys(selectedItems).join('\n')}
           />
-          <label>{maybe_plural(item_label, Object.keys(selectedItems).length)}, click to copy</label>
+          <label>{maybe_plural_jsx(item_label, Object.keys(selectedItems).length, Math.ceil(Math.log10(n_items)))}, <u>📋</u></label>
         </div>
       </div>
       <div ref={tooltipRef} className="react-supervenn-tooltip"></div>

@@ -1,14 +1,14 @@
 
 .react-supervenn-layout {
-  flex: 1 1 auto;
+  flex: 1 0 auto;
   overflow: hidden;
   display: grid;
   grid:
-      ".           .           ycount      items      .      " min-content
-      "ylabel      yticks      data        xcount     xcount " auto
-      ".           sets        xticks      .          .      " min-content
-      ".           sets        xlabel      .          .      " min-content
-    /  min-content min-content minmax(min-content, 2fr) min-content minmax(min-content, 1fr)
+      ".           .           ycount      items  " min-content
+      "ylabel      yticks      data        xcount " auto
+      ".           sets        xticks      .      " min-content
+      ".           sets        xlabel      .      " min-content
+    /  min-content min-content auto min-content min-content
   ;
   resize: vertical;
 }
@@ -21,7 +21,7 @@
   justify-items: stretch;
 }
 .react-supervenn-data > div {
-  flex: 1 1 auto;
+  flex: 1 0 auto;
   overflow: hidden;
   display: flex;
   flex-direction: row;
@@ -63,16 +63,13 @@
 
 .react-supervenn-yticks {
   grid-area: yticks;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  display: grid;
+  grid-auto-rows: 1fr;
 }
 .react-supervenn-yticks > div {
-  flex: 1 1 auto;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-items: flex-end;
+  text-align: right;
+  white-space: break-spaces;
+  padding: 5px;
   border: 2px solid white;
   cursor: pointer;
   background-color: #eee;
@@ -82,9 +79,6 @@
 }
 .react-supervenn-yticks > div.react-supervenn-selected {
   border: 2px solid black;
-}
-.react-supervenn-yticks > div > span {
-  user-select: none;
 }
 
 .react-supervenn-xticks {
@@ -146,14 +140,13 @@
 
 .react-supervenn-xcount {
   grid-area: xcount;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-auto-rows: 1fr;
   background-color: #eee;
 }
 .react-supervenn-xcount > div {
   cursor: pointer;
   border: 2px solid white;
-  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
 }
@@ -180,12 +173,19 @@
   justify-items: stretch;
 }
 .react-supervenn-sets > textarea {
-  min-width: 8em;
-  border: 1px solid #eee;
+  cursor: pointer;
+  pointer-events: none;
+  width: 100%;
+  border: 2px solid #eee;
   resize: none;
+  box-sizing: border-box;
+  overflow-y: scroll;
 }
 .react-supervenn-sets > label {
+  cursor: pointer;
+  pointer-events: none;
   color: #666;
+  white-space: nowrap;
 }
 
 .react-supervenn-items {
@@ -196,11 +196,18 @@
   justify-items: stretch;
 }
 .react-supervenn-items > textarea {
-  min-width: 8em;
-  border: 1px solid #eee;
+  cursor: pointer;
+  pointer-events: none;
+  width: 100%;
+  border: 2px solid #eee;
   resize: none;
+  box-sizing: border-box;
+  overflow-y: scroll;
 }
 .react-supervenn-items > label {
+  cursor: pointer;
+  pointer-events: none;
+  white-space: pre;
   color: #666;
 }
 

@@ -20,7 +20,7 @@ npm install --save maayanlab/react-supervenn
 
 #### Development
 ```bash
-npm run storybook
+npm start
 ```
 
 #### Deployment

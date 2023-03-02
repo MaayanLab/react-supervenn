@@ -12,8 +12,7 @@
   ],
   "scripts": {
     "build": "tsc --emitDeclarationOnly && rollup -c --bundleConfigAsCjs && cp lib/umd/index.js react_supervenn/react_supervenn.js",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "start": "start-storybook -p 6006"
   },
   "repository": {
     "type": "git",

@@ -4,11 +4,11 @@
   overflow: hidden;
   display: grid;
   grid:
-      ".           .           ycount      .          " min-content
-      "ylabel      yticks      data        xcount     " auto
-      ".           .           xticks      .          " min-content
-      "sets        sets        xlabel      items      " min-content
-    /  min-content min-content minmax(min-content, 2fr) minmax(min-content, 1fr)
+      ".           .           ycount      items      .      " min-content
+      "ylabel      yticks      data        xcount     xcount " auto
+      ".           sets        xticks      .          .      " min-content
+      ".           sets        xlabel      .          .      " min-content
+    /  min-content min-content minmax(min-content, 2fr) min-content minmax(min-content, 1fr)
   ;
   resize: vertical;
 }
@@ -67,9 +67,6 @@
   flex-direction: column;
   align-items: stretch;
 }
-.react-supervenn-yticks .react-supervenn-selected {
-  font-weight: bold;
-}
 .react-supervenn-yticks > div {
   flex: 1 1 auto;
   overflow: hidden;
@@ -78,6 +75,13 @@
   justify-items: flex-end;
   border: 2px solid white;
   cursor: pointer;
+  background-color: #eee;
+}
+.react-supervenn-yticks > div.react-supervenn-alternate {
+  background-color: #ddd;
+}
+.react-supervenn-yticks > div.react-supervenn-selected {
+  border: 2px solid black;
 }
 .react-supervenn-yticks > div > span {
   user-select: none;
@@ -88,9 +92,6 @@
   display: flex;
   flex-direction: row;
 }
-.react-supervenn-xticks .react-supervenn-selected {
-  font-weight: bold;
-}
 .react-supervenn-xticks > div {
   height: 50px;
   display: flex;
@@ -98,6 +99,7 @@
   justify-content: center;
   border: 2px solid white;
   cursor: pointer;
+  background-color: #eee;
 }
 .react-supervenn-xticks > div > span {
   user-select: none;
@@ -113,13 +115,15 @@
   white-space: nowrap;
   user-select: none;
 }
+.react-supervenn-xticks > div.react-supervenn-selected {
+  border: 2px solid black;
+}
 
 .react-supervenn-ycount {
   grid-area: ycount;
   display: flex;
   flex-direction: row;
   background-color: #eee;
-  height: 50px;
 }
 .react-supervenn-ycount > div {
   cursor: pointer;
@@ -175,9 +179,13 @@
   align-items: stretch;
   justify-items: stretch;
 }
-.react-supervenn-sets > textarea { 
-  flex: 1 0 auto;
+.react-supervenn-sets > textarea {
+  min-width: 8em;
+  border: 1px solid #eee;
   resize: none;
+}
+.react-supervenn-sets > label {
+  color: #666;
 }
 
 .react-supervenn-items {
@@ -187,7 +195,24 @@
   align-items: stretch;
   justify-items: stretch;
 }
-.react-supervenn-items > textarea { 
-  flex: 1 0 auto;
+.react-supervenn-items > textarea {
+  min-width: 8em;
+  border: 1px solid #eee;
   resize: none;
+}
+.react-supervenn-items > label {
+  color: #666;
+}
+
+.react-supervenn-tooltip {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  background-color: yellow;
+  transform: translate(-50%, -100%) translate(0px, -10px);
+  width: 16em;
+  padding: 10px;
+  text-align: center;
+  z-index: 99;
+  transition: all 50ms, opacity 200ms;
 }

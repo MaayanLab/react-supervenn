@@ -13,6 +13,10 @@ declare const _default: ComponentMeta<React.FC<{
     color_by: "row" | "column";
     color_cycle: string[];
     alternating_background: boolean;
+    set_label?: string;
+    item_label?: string;
+    selection?: Record<string, boolean>;
+    onSelectionChange?: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
 }>>;
 export default _default;
 export declare const Default: any;

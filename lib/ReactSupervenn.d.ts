@@ -53,5 +53,21 @@ declare const ReactSupervenn: React.FC<{
      * True (default) / False - give avery second row a slight grey tint
      */
     alternating_background: boolean;
+    /**
+     * The singular label to use when referring to the sets
+     */
+    set_label?: string;
+    /**
+     * The singular label to use when referring to the items
+     */
+    item_label?: string;
+    /**
+     * Allow parent to control selection
+     */
+    selection?: Record<string, boolean>;
+    /**
+     * Allow parent to control selection
+     */
+    onSelectionChange?: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
 }>;
 export default ReactSupervenn;

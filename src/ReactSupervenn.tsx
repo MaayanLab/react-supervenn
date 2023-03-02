@@ -7,6 +7,22 @@ const maybe_plural = (singular: string, x: number) => {
   if (x === 1) return `${x} ${singular}`
   else return `${x} ${singular}s`
 }
+
+/**
+ * A helper to optionally allow a state variable to be controlled by a parent component -- the optional state, dispatch should be provided
+ */
+function useMaybeManagedState<T>(externalState?: T, setExternalState?: React.Dispatch<React.SetStateAction<T>>, defaultState?: T) {
+  const [internalState, setInternalState] = React.useState<T>(externalState !== undefined ? externalState : defaultState)
+  React.useEffect(() => {
+    if (externalState !== undefined) setInternalState(externalState)
+  }, [externalState, setExternalState])
+  const setState = React.useCallback((action: React.SetStateAction<T>) => {
+    if (externalState !== undefined) return setExternalState(action)
+    else return setInternalState(action)
+  }, [externalState, setExternalState])
+  return [internalState, setState] as [T, React.Dispatch<React.SetStateAction<T>>]
+}
+
 /**
  * A react component to render supervenn in HTML
  * 
@@ -68,6 +84,14 @@ const ReactSupervenn: React.FC<{
    * The singular label to use when referring to the items
    */
   item_label?: string,
+  /**
+   * Allow parent to control selection
+   */
+  selection?: Record<string, boolean>
+  /**
+   * Allow parent to control selection
+   */
+  onSelectionChange?: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
 }> = ({
   sets,
   set_annotations,
@@ -83,9 +107,11 @@ const ReactSupervenn: React.FC<{
   alternating_background,
   set_label = 'set',
   item_label = 'item',
+  selection: externalSelection,
+  onSelectionChange,
 }) => {
   const tooltipRef = React.useRef<HTMLDivElement>(null)
-  const [selection, setSelection] = React.useState({})
+  const [selection, setSelection] = useMaybeManagedState(externalSelection, onSelectionChange, {})
   const { selectedRows, selectedCols, selectedItems } = React.useMemo(() => {
     const selectedRows = {}
     const selectedCols = {}

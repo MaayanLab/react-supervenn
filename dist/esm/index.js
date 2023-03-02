@@ -263,4 +263,4 @@ var ReactSupervenn = function (_a) {
 };
 
 export { ReactSupervenn as default };
-//# sourceMappingURL=index.esm.js.map
+//# sourceMappingURL=index.js.map

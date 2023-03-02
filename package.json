@@ -2,19 +2,12 @@
   "name": "react-supervenn",
   "version": "0.0.1",
   "description": "An interactive React implementation of [supervenn](https://github.com/gecko984/supervenn).",
-  "exports": {
-    ".": {
-      "types": "./dist/lib/index.d.ts",
-      "import": "./dist/index.esm.js",
-      "require": "./dist/index.js"
-    }
-  },
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/lib/index.d.ts",
-  "umd": "dist/index.umd.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "umd": "dist/umd/index.js",
   "scripts": {
-    "build": "rollup -c --bundleConfigAsCjs && cp dist/index.umd.js react_supervenn/react_supervenn.js",
+    "build": "tsc && rollup -c --bundleConfigAsCjs && cp dist/umd/index.js react_supervenn/react_supervenn.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

@@ -212,12 +212,10 @@ const ReactSupervenn: React.FC<{
           ))}
         </div>
         <div className="react-supervenn-ylabel">
-          <div>
-            {set_label.toUpperCase()}S ({maybe_plural(set_label, sets.length)})
-          </div>
+          {maybe_plural(set_label, sets.length)}
         </div>
         <div className="react-supervenn-xlabel">
-          {item_label.toUpperCase()}S ({maybe_plural(item_label, n_items)})
+          {maybe_plural(item_label, n_items)}
         </div>
         <div className="react-supervenn-yticks">
           {sets.map((_, row) => (

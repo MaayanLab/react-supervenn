@@ -4,13 +4,11 @@
   overflow: hidden;
   display: grid;
   grid:
-      ".           .           ycount      items  " min-content
-      "ylabel      yticks      data        xcount " auto
-      ".           sets        xticks      .      " min-content
-      ".           sets        xlabel      .      " min-content
-    /  min-content min-content auto min-content min-content
+      "ylabel  ycount  items " min-content
+      "yticks  data    xcount" auto
+      "sets    xticks  xlabel" min-content
+    /  min-content auto min-content min-content
   ;
-  resize: vertical;
 }
 
 .react-supervenn-data {
@@ -39,22 +37,18 @@
 }
 
 .react-supervenn-ylabel {
-  grid-area: ylabel;
-  position: relative;
-  width: 50px;
-}
-.react-supervenn-ylabel > div {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+  flex: 1 0 auto;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   user-select: none;
 }
 
 .react-supervenn-xlabel {
   grid-area: xlabel;
-  height: 50px;
+  flex: 1 0 auto;
+  white-space: nowrap;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,7 +81,7 @@
   flex-direction: row;
 }
 .react-supervenn-xticks > div {
-  height: 50px;
+  height: 65px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -169,7 +163,7 @@
   grid-area: sets;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   justify-items: stretch;
 }
 .react-supervenn-sets > textarea {
@@ -192,7 +186,7 @@
   grid-area: items;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   justify-items: stretch;
 }
 .react-supervenn-items > textarea {

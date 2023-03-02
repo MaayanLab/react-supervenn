@@ -3,7 +3,10 @@ import classNames from 'classnames'
 import './ReactSupervenn.css'
 
 const as_percent = (x: number) => `${100*x}%`
-
+const maybe_plural = (singular: string, x: number) => {
+  if (x === 1) return `${x} ${singular}`
+  else return `${x} ${singular}s`
+}
 /**
  * A react component to render supervenn in HTML
  * 
@@ -57,6 +60,14 @@ const ReactSupervenn: React.FC<{
    * True (default) / False - give avery second row a slight grey tint
    */
   alternating_background: boolean,
+  /**
+   * The singular label to use when referring to the sets
+   */
+  set_label?: string,
+  /**
+   * The singular label to use when referring to the items
+   */
+  item_label?: string,
 }> = ({
   sets,
   set_annotations,
@@ -70,6 +81,8 @@ const ReactSupervenn: React.FC<{
   color_by,
   color_cycle,
   alternating_background,
+  set_label = 'set',
+  item_label = 'item',
 }) => {
   const tooltipRef = React.useRef<HTMLDivElement>(null)
   const [selection, setSelection] = React.useState({})
@@ -126,7 +139,7 @@ const ReactSupervenn: React.FC<{
                         'react-supervenn-cell': true,
                         'react-supervenn-selected': selection[`${row}.${col}`],
                       })}
-                      data-tip={`This region has ${cell} item(s) from ${set_annotations[row]}, click to select.`}
+                      data-tip={`This region has ${maybe_plural(item_label, chunks[col].length)} from ${set_annotations[row]}, click to select.`}
                       onClick={_ => {
                         setSelection(
                           selection => ({
@@ -157,11 +170,11 @@ const ReactSupervenn: React.FC<{
           ))}
         </div>
         <div className="react-supervenn-ylabel">
-          <div>SETS (<span>{sets.length} sets</span>)
+          <div>{set_label.toUpperCase()}S ({maybe_plural(set_label, sets.length)})
           </div>
         </div>
         <div className="react-supervenn-xlabel">
-          ITEMS (<span>{n_items} items</span>)
+          {item_label.toUpperCase()}S ({maybe_plural(item_label, n_items)})
         </div>
         <div className="react-supervenn-yticks">
           {sets.map((_, row) => (
@@ -171,7 +184,7 @@ const ReactSupervenn: React.FC<{
                 'react-supervenn-selected': selectedRows[row],
                 'react-supervenn-alternate': alternating_background && row % 2 == 0,
               })}
-              data-tip={`This row has ${sets[row].length} item(s) from ${set_annotations[row]}, click to select.`}
+              data-tip={`This row has ${maybe_plural(item_label, sets[row].length)} from ${set_annotations[row]}, click to select.`}
               onClick={_ => {
                 setSelection(
                   selection => {
@@ -185,7 +198,7 @@ const ReactSupervenn: React.FC<{
                   }
                 )
               }}
-            ><span>{set_annotations[row]}</span></div>
+            >{set_annotations[row]}</div>
           ))}
         </div>
         <div className="react-supervenn-xticks">
@@ -199,7 +212,7 @@ const ReactSupervenn: React.FC<{
               style={{
                 width: as_percent(col_widths[col] / n_items),
               }}
-              data-tip={`This column has ${chunk.length} item(s) shared by ${ycounts[col]} set(s), click to select.`}
+              data-tip={`This column has ${maybe_plural(item_label, chunk.length)} shared by ${maybe_plural(set_label, ycounts[col])}, click to select.`}
               onClick={_ => {
                 setSelection(
                   selection => {
@@ -214,11 +227,9 @@ const ReactSupervenn: React.FC<{
                 )
               }}
             >
-              <span>
-                {chunk.length >= effective_min_width_for_annotation ?
-                  chunk.length
-                  : null}
-              </span>
+              {chunk.length >= effective_min_width_for_annotation ?
+                chunk.length
+                : null}
             </div>
           ))}
         </div>
@@ -229,7 +240,7 @@ const ReactSupervenn: React.FC<{
               style={{
                 width: as_percent(col_widths[col] / n_items),
               }}
-              data-tip={`This column has ${chunk.length} item(s) shared by ${ycounts[col]} set(s), click to select.`}
+              data-tip={`This column has ${maybe_plural(item_label, chunk.length)} shared by ${maybe_plural(set_label, ycounts[col])}, click to select.`}
               onClick={_ => {
                 setSelection(
                   selection => {
@@ -249,11 +260,9 @@ const ReactSupervenn: React.FC<{
                   pointerEvents: 'none',
                   height: as_percent(ycounts[col] / sets.length),
                 }}>
-                  <span>
-                    {chunks[col].length >= effective_min_width_for_annotation ?
-                      ycounts[col]
-                      : null}
-                  </span>
+                  {chunks[col].length >= effective_min_width_for_annotation ?
+                    ycounts[col]
+                    : null}
               </div>
             </div>
           ))}
@@ -263,7 +272,7 @@ const ReactSupervenn: React.FC<{
             <div
               key={row}
               className={classNames({ 'react-supervenn-alternate': alternating_background && row % 2 == 0 })}
-              data-tip={`This row has ${sets[row].length} item(s) from ${set_annotations[row]}, click to select.`}
+              data-tip={`This row has ${maybe_plural(item_label, sets[row].length)} from ${set_annotations[row]}, click to select.`}
               onClick={_ => {
                 setSelection(
                   selection => {
@@ -283,7 +292,7 @@ const ReactSupervenn: React.FC<{
                   pointerEvents: 'none',
                   width: as_percent(sets[row].length / n_items),
                 }}
-              ><span>{sets[row].length}</span></div>
+              >{sets[row].length}</div>
             </div>
           ))}
         </div>
@@ -296,7 +305,7 @@ const ReactSupervenn: React.FC<{
             readOnly
             value={Object.keys(selectedRows).map(s => set_annotations[s]).join('\n')}
           />
-          <label>{Object.keys(selectedRows).length} set(s), click to copy</label>
+          <label>{maybe_plural(set_label, Object.keys(selectedRows).length)}, click to copy</label>
         </div>
         <div className="react-supervenn-items" onClick={evt => {
           (evt.currentTarget.children[0] as HTMLTextAreaElement).select()
@@ -307,7 +316,7 @@ const ReactSupervenn: React.FC<{
             readOnly
             value={Object.keys(selectedItems).join('\n')}
           />
-          <label>{Object.keys(selectedItems).length} item(s), click to copy</label>
+          <label>{maybe_plural(item_label, Object.keys(selectedItems).length)}, click to copy</label>
         </div>
       </div>
       <div ref={tooltipRef} className="react-supervenn-tooltip"></div>

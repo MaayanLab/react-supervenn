@@ -11,7 +11,9 @@ const common = {
     peerDepsExternal(),
     resolve(),
     commonjs(),
-    typescript(),
+    typescript({
+      declaration: false,
+    }),
     postcss({
       extensions: [".css"],
     }),

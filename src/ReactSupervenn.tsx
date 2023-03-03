@@ -1,11 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
+import pluralize from 'pluralize'
 import './ReactSupervenn.css'
 
 const as_percent = (x: number) => `${100*x}%`
 const maybe_plural = (singular: string, x: number) => {
   if (x === 1) return `${x} ${singular}`
-  else return `${x} ${singular}s`
+  else return `${x} ${pluralize(singular)}`
 }
 const pad_left_jsx = (x: number, n?: number) => {
   const jsx = []
@@ -21,7 +22,7 @@ const pad_left_jsx = (x: number, n?: number) => {
 const maybe_plural_jsx = (singular: string, x: number, n: number) => {
   const x_jsx = pad_left_jsx(x, n)
   if (x === 1) return <>{x_jsx} &nbsp;{singular}</>
-  else return <>{x_jsx} {singular}s</>
+  else return <>{x_jsx} {pluralize(singular)}</>
 }
 
 /**

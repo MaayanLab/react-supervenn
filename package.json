@@ -1,6 +1,6 @@
 {
   "name": "react-supervenn",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "An interactive React implementation of [supervenn](https://github.com/gecko984/supervenn).",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -40,6 +40,7 @@
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/react": "^6.5.16",
     "@storybook/testing-library": "^0.0.13",
+    "@types/pluralize": "^0.0.29",
     "@types/react": "^18.0.28",
     "babel-loader": "^9.1.2",
     "postcss": "^8.4.21",
@@ -55,6 +56,7 @@
   },
   "dependencies": {
     "classnames": "^2.3.2",
+    "pluralize": "^8.0.0",
     "react": "^18.2.0"
   }
 }

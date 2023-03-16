@@ -23,10 +23,13 @@
   overflow: hidden;
   display: flex;
   flex-direction: row;
+  white-space: nowrap;
   background-color: #eee;
+  color: #eee;
 }
 .react-supervenn-data > div.react-supervenn-alternate {
   background-color: #ddd;
+  color: #ddd;
 }
 .react-supervenn-cell {
   border: 2px solid white;

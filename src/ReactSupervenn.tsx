@@ -194,8 +194,13 @@ const ReactSupervenn: React.FC<{
                       style={{
                         width: as_percent(col_widths[col] / n_items),
                         backgroundColor: color_by === 'column' ? color_cycle[col % color_cycle.length] : color_cycle[row % color_cycle.length],
+                        color: color_by === 'column' ? color_cycle[col % color_cycle.length] : color_cycle[row % color_cycle.length],
                         userSelect: 'none',
-                      }}>&nbsp;</div>
+                      }}>
+                        {chunks[col].length >= effective_min_width_for_annotation ?
+                          chunks[col].length
+                          : null}
+                      </div>
                   )
                 } else {
                   return (
@@ -205,7 +210,11 @@ const ReactSupervenn: React.FC<{
                       style={{
                         width: as_percent(col_widths[col] / n_items),
                         userSelect: 'none',
-                      }}>&nbsp;</div>
+                      }}>
+                      {chunks[col].length >= effective_min_width_for_annotation ?
+                        chunks[col].length
+                        : null}
+                    </div>
                   )
                 }
               })}

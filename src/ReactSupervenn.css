@@ -26,6 +26,7 @@
   white-space: nowrap;
   background-color: #eee;
   color: #eee;
+  user-select: none;
 }
 .react-supervenn-data > div.react-supervenn-alternate {
   background-color: #ddd;
@@ -50,7 +51,6 @@
 
 .react-supervenn-xlabel {
   grid-area: xlabel;
-  flex: 1 0 auto;
   white-space: nowrap;
   display: flex;
   align-items: center;
@@ -70,6 +70,7 @@
   border: 2px solid white;
   cursor: pointer;
   background-color: #eee;
+  user-select: none;
 }
 .react-supervenn-yticks > div.react-supervenn-alternate {
   background-color: #ddd;
@@ -91,6 +92,7 @@
   border: 2px solid white;
   cursor: pointer;
   background-color: #eee;
+  user-select: none;
 }
 .react-supervenn-xticks > div > span {
   user-select: none;
@@ -115,24 +117,33 @@
   display: flex;
   flex-direction: row;
   background-color: #eee;
+  user-select: none;
 }
 .react-supervenn-ycount > div {
   cursor: pointer;
   border: 2px solid white;
   background-color: #eee;
-  display: flex;
-  flex-direction: column;
-  align-content: stretch;
-  justify-content: flex-end;
+  color: #eee;
+  display: block;
+  position: relative;
 }
-.react-supervenn-ycount > div > div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.react-supervenn-ycount > div.react-supervenn-selected {
+  border: 2px solid black;
+}
+.react-supervenn-ycount-bar {
+  position: absolute;
+  pointer-events: none;
   background-color: #aaa;
+  top: 0%;
+  width: 100%;
+  height: 100%;
 }
-.react-supervenn-ycount > div > div > span {
-  user-select: none;
+.react-supervenn-ycount-count {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  color: black;
 }
 
 .react-supervenn-xcount {
@@ -146,6 +157,7 @@
   border: 2px solid white;
   display: flex;
   flex-direction: column;
+  user-select: none;
 }
 .react-supervenn-xcount > div.react-supervenn-alternate {
   background-color: #ddd;
@@ -183,6 +195,7 @@
   pointer-events: none;
   color: #666;
   white-space: nowrap;
+  user-select: none;
 }
 
 .react-supervenn-items {
@@ -206,6 +219,7 @@
   pointer-events: none;
   white-space: pre;
   color: #666;
+  user-select: none;
 }
 
 .react-supervenn-tooltip {

@@ -21,8 +21,8 @@ const pad_left_jsx = (x: number, n?: number) => {
 }
 const maybe_plural_jsx = (singular: string, x: number, n: number) => {
   const x_jsx = pad_left_jsx(x, n)
-  if (x === 1) return <>{x_jsx} &nbsp;{singular}</>
-  else return <>{x_jsx} {pluralize(singular)}</>
+  /*if (x === 1) return <>{x_jsx} &nbsp;{singular}</>
+  else */return <>{x_jsx} {pluralize(singular)}</>
 }
 
 /**
@@ -291,6 +291,9 @@ const ReactSupervenn: React.FC<{
               style={{
                 width: as_percent(col_widths[col] / n_items),
               }}
+              className={classNames({
+                'react-supervenn-selected': selectedCols[col],
+              })}
               data-tip={`This column has ${maybe_plural(item_label, chunk.length)} shared by ${maybe_plural(set_label, ycounts[col])}, click to select.`}
               onClick={_ => {
                 setSelection(
@@ -306,14 +309,20 @@ const ReactSupervenn: React.FC<{
                 )
               }}
             >
+              {chunks[col].length >= effective_min_width_for_annotation ?
+                chunks[col].length
+                  : null}
+              <div className="react-supervenn-ycount-count">
+                {chunks[col].length >= effective_min_width_for_annotation ?
+                  ycounts[col]
+                  : null}
+              </div>
               <div
+                className="react-supervenn-ycount-bar"
                 style={{
-                  pointerEvents: 'none',
+                  top: as_percent(1 - ycounts[col] / sets.length),
                   height: as_percent(ycounts[col] / sets.length),
                 }}>
-                  {chunks[col].length >= effective_min_width_for_annotation ?
-                    ycounts[col]
-                    : null}
               </div>
             </div>
           ))}

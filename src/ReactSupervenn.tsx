@@ -127,7 +127,6 @@ const ReactSupervenn: React.FC<{
   selection: externalSelection,
   onSelectionChange,
 }) => {
-  const tooltipRef = React.useRef<HTMLDivElement>(null)
   const [selection, setSelection] = useMaybeManagedState(externalSelection, onSelectionChange, {})
   const { selectedRows, selectedCols, selectedItems } = React.useMemo(() => {
     const selectedRows = {}
@@ -145,25 +144,28 @@ const ReactSupervenn: React.FC<{
     return { selectedRows, selectedCols, selectedItems }
   }, [selection])
   React.useEffect(() => {
-    if (!tooltipRef) return
+    const tooltip = document.createElement('div')
+    tooltip.classList.add("react-supervenn-tooltip")
+    tooltip.style.opacity = `0.0`
+    document.body.appendChild(tooltip)
     const listener = (evt: MouseEvent) => {
-      if (!tooltipRef.current) return
       const el = document.elementFromPoint(evt.clientX, evt.clientY)
       const tip = el.getAttribute('data-tip')
       if (tip !== null) {
-        tooltipRef.current.innerText = tip
-        tooltipRef.current.style.left = `${evt.clientX + window.scrollX}px`
-        tooltipRef.current.style.top = `${evt.clientY + window.scrollY}px`
-        tooltipRef.current.style.opacity = `1.0`
+        tooltip.innerText = tip
+        tooltip.style.left = `${evt.clientX + window.scrollX}px`
+        tooltip.style.top = `${evt.clientY + window.scrollY}px`
+        tooltip.style.opacity = `1.0`
       } else {
-        tooltipRef.current.style.opacity = `0.0`
+        tooltip.style.opacity = `0.0`
       }
     }
     document.addEventListener('mousemove', listener)
     return () => {
       document.removeEventListener('mousemove', listener)
+      document.body.removeChild(tooltip)
     }
-  }, [tooltipRef])
+  }, [])
   return (
     <>
       <div className="react-supervenn-layout">
@@ -385,7 +387,6 @@ const ReactSupervenn: React.FC<{
           <label>{maybe_plural_jsx(item_label, Object.keys(selectedItems).length, Math.ceil(Math.log10(n_items)))}, <u>📋</u></label>
         </div>
       </div>
-      <div ref={tooltipRef} className="react-supervenn-tooltip"></div>
     </>
   )
 }

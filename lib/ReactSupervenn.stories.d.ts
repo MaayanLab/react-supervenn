@@ -1,6 +1,5 @@
 import React from 'react';
-import { ComponentMeta } from '@storybook/react';
-declare const _default: ComponentMeta<React.FC<{
+declare const _default: import("@storybook/types").ComponentAnnotations<import("@storybook/react/dist/types-0a347bb9").R, {
     sets: number[][];
     set_annotations: string[];
     chunks: number[][];
@@ -17,6 +16,6 @@ declare const _default: ComponentMeta<React.FC<{
     item_label?: string;
     selection?: Record<string, boolean>;
     onSelectionChange?: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
-}>>;
+}>;
 export default _default;
 export declare const Default: any;

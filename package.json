@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "build": "tsc --emitDeclarationOnly && rollup -c --bundleConfigAsCjs && cp lib/umd/index.js react_supervenn/react_supervenn.js",
+    "publish:docs": "storybook build -o out && gh-pages -d out",
     "start": "storybook dev -p 6006",
     "version": "npm run build && git add lib react_supervenn"
   },
@@ -44,6 +45,7 @@
     "@types/pluralize": "^0.0.33",
     "@types/react": "^18.2.37",
     "babel-loader": "^9.1.3",
+    "gh-pages": "^6.1.1",
     "postcss": "^8.4.31",
     "react-dom": "^18.2.0",
     "rollup": "^4.5.0",
